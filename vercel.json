@@ -11,10 +11,6 @@
         {
             "source": "/windex/:match*",
             "destination": "https://windex-navy.vercel.app/:match*"
-        },
-        {
-            "source": "/((?!zyro|windex|static|api).*)",
-            "destination": "/index.html"
         }
     ]
 }
