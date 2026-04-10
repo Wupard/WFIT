@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Dumbbell, Terminal, Brain, Target, MessageSquare, StickyNote, ChevronRight } from 'lucide-react';
+import { Activity, Dumbbell, Brain, Target, MessageSquare, StickyNote, ChevronRight, Sparkles } from 'lucide-react';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -7,132 +7,96 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     return (
-        <div className="min-h-screen bg-[#0E0C0B] text-[var(--text-main)] overflow-hidden relative font-sans selection:bg-[var(--accent-primary)] selection:text-black">
+        <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] overflow-hidden relative font-body selection:bg-[var(--accent-primary)] selection:text-white">
 
-            {/* Background Texture & Grids */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(200,123,42,0.05),transparent_70%)] pointer-events-none"></div>
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,0.12),transparent_50%)] pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(99,102,241,0.08),transparent_60%)] pointer-events-none"></div>
 
-            {/* Industrial Header Navbar */}
-            <nav className="relative z-50 flex items-center justify-between px-8 py-8 max-w-7xl mx-auto border-b-2 border-[#1D1916]">
-                <div className="flex items-center gap-4">
-                    <div className="bg-[#1D1916] border-2 border-[var(--accent-primary)] p-3 shadow-[4px_4px_0px_#000]">
-                        <Activity size={28} className="text-[var(--accent-primary)] animate-pulse" />
+            {/* Navbar */}
+            <nav className="relative z-50 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+                <div className="flex items-center gap-3">
+                    <div className="bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] p-2.5 rounded-xl shadow-lg">
+                        <Activity size={24} className="text-white" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-3xl font-heading tracking-[0.2em] uppercase text-stamped">WFIT</span>
-                        <span className="text-[8px] font-mono text-[var(--accent-primary)] font-bold tracking-[0.4em]">SYSTEM_VERSION_5.0</span>
+                        <span className="text-2xl font-heading text-[var(--text-main)]">WFIT</span>
+                        <span className="text-[10px] text-[var(--text-muted)]">Personal Fitness Hub</span>
                     </div>
                 </div>
                 <button
                     onClick={onLogin}
-                    className="px-8 py-3 bg-[#1D1916] border-2 border-[#26211D] text-[var(--text-main)] hover:text-[var(--accent-primary)] hover:border-[var(--accent-primary)] transition-all font-heading tracking-widest uppercase text-sm shadow-[4px_4px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
+                    className="px-6 py-2.5 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-main)] hover:border-[var(--accent-primary)] transition-all rounded-xl text-sm font-medium backdrop-blur-xl"
                 >
-                    [ ACCESS_PORTAL ]
+                    Sign In
                 </button>
             </nav>
 
-            <main className="relative z-10 max-w-7xl mx-auto px-8 pt-24 pb-40 flex flex-col items-center text-center">
+            <main className="relative z-10 max-w-7xl mx-auto px-8 pt-20 pb-32 flex flex-col items-center text-center">
 
-                {/* HUD Badge */}
-                <div className="inline-flex items-center gap-3 px-6 py-2 bg-[#14110F] border-2 border-[#26211D] mb-12 animate-fade-in relative">
-                    <div className="absolute top-0 right-0 w-2 h-2 bg-[var(--accent-primary)] animate-ping"></div>
-                    <div className="w-2 h-2 bg-[var(--accent-primary)] rounded-none"></div>
-                    <span className="text-[10px] font-mono font-bold text-[var(--accent-primary)] uppercase tracking-[0.3em]">NEW_PROTOCOL: CORE_ANALYTICS // ACTIVE</span>
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2.5 px-5 py-2 bg-[var(--accent-glow)] border border-[var(--border-color)] rounded-full mb-10 animate-fade-in backdrop-blur-sm">
+                    <Sparkles size={14} className="text-[var(--accent-primary)]" />
+                    <span className="text-xs font-medium text-[var(--accent-primary)]">AI-Powered Training Intelligence</span>
                 </div>
 
-                <h1 className="text-6xl md:text-9xl font-heading font-black tracking-widest mb-10 leading-tight animate-fade-in uppercase text-stamped">
-                    FORGE THE<br />
-                    <span className="text-[var(--accent-primary)]">ULTIMATE_SELF</span>
+                <h1 className="text-5xl md:text-8xl font-heading font-extrabold mb-8 leading-tight animate-fade-in">
+                    Your Personal<br />
+                    <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">Fitness Hub</span>
                 </h1>
 
-                <p className="text-lg md:text-xl text-[var(--text-muted)] max-w-3xl mb-12 font-mono uppercase tracking-tight leading-relaxed animate-fade-in opacity-80" style={{ animationDelay: '0.2s' }}>
-                    <span className="text-[var(--accent-primary)] font-bold">// DATA_STREAM:</span> WFIT IS AN ANALOG-INSPIRED COMMAND HUB FOR HUMAN OPTIMIZATION. RUN STRENGTH ANALYTICS, COMMAND NEURAL AI INTELLIGENCE, AND ARCHIVE CRITICAL TRAINING DATA.
+                <p className="text-lg md:text-xl text-[var(--text-muted)] max-w-2xl mb-12 animate-fade-in leading-relaxed" style={{ animationDelay: '0.2s' }}>
+                    Track your strength, analyze your progress with AI intelligence, and keep organized training notes — all in one beautifully designed dashboard.
                 </p>
 
-                <div className="flex flex-col md:flex-row gap-8 w-full md:w-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
                     <button
                         onClick={onLogin}
-                        className="btn-primary px-12 py-6 text-3xl tracking-[0.3em] shadow-[12px_12px_0px_rgba(0,0,0,0.8)] hover:shadow-[15px_15px_0px_rgba(0,0,0,0.9)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center gap-4"
+                        className="btn-primary px-10 py-4 text-lg flex items-center justify-center gap-3 rounded-xl"
                     >
-                        START_INITIALIZATION <ChevronRight size={32} />
+                        Get Started <ChevronRight size={20} />
                     </button>
 
-                    <button className="px-12 py-6 bg-transparent border-4 border-[#1D1916] text-[#3D3630] font-heading text-2xl tracking-widest uppercase hover:text-[var(--text-main)] hover:border-[#26211D] transition-all">
-                        SYS_SPECS
+                    <button className="px-10 py-4 bg-transparent border border-[var(--border-color)] text-[var(--text-muted)] rounded-xl text-lg hover:text-[var(--text-main)] hover:border-[var(--border-strong)] transition-all backdrop-blur-sm">
+                        Learn More
                     </button>
                 </div>
 
-                {/* Industrial Features Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-32 w-full animate-fade-in" style={{ animationDelay: '0.6s' }}>
-                    <div className="panel-technical p-10 bg-[#1D1916] border-2 border-[#26211D] text-left hover:border-[var(--accent-primary)] group transition-all relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Brain size={120} /></div>
-                        <div className="relative z-10">
-                            <div className="w-16 h-16 bg-[#14110F] border-2 border-[#26211D] flex items-center justify-center mb-8 group-hover:border-[var(--accent-primary)] transition-all shadow-[4px_4px_0px_#000]">
-                                <MessageSquare size={32} className="text-[var(--accent-primary)]" />
-                            </div>
-                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">NEURAL_COMMAND</h3>
-                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">ADVANCED AI CENTRAL INTERFACE FOR REAL-TIME BIOMETRIC INTELLIGENCE AND TRAINING STRATEGY.</p>
-                            <div className="mt-6 flex gap-2"><div className="w-1.5 h-1.5 bg-[var(--accent-primary)]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div></div>
+                {/* Features Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-28 w-full animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                    <div className="vintage-card p-8 text-left group hover:border-[var(--accent-primary)] transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 flex items-center justify-center mb-5 group-hover:from-purple-500/30 group-hover:to-indigo-500/30 transition-all">
+                            <MessageSquare size={24} className="text-[var(--accent-primary)]" />
                         </div>
+                        <h3 className="text-lg font-heading mb-2 text-[var(--text-main)]">AI Assistant</h3>
+                        <p className="text-sm text-[var(--text-muted)] leading-relaxed">Get real-time training advice and biometric intelligence from our advanced AI chatbot.</p>
                     </div>
 
-                    <div className="panel-technical p-10 bg-[#1D1916] border-2 border-[#26211D] text-left hover:border-[var(--accent-primary)] group transition-all relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Target size={120} /></div>
-                        <div className="relative z-10">
-                            <div className="w-16 h-16 bg-[#14110F] border-2 border-[#26211D] flex items-center justify-center mb-8 group-hover:border-[var(--accent-primary)] transition-all shadow-[4px_4px_0px_#000]">
-                                <Target size={32} className="text-[var(--accent-primary)]" />
-                            </div>
-                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">STRENGTH_ANALYTICS</h3>
-                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">HIGH-PRECISION COMMAND HUB FOR CALCULATING 1RM (ONE REP MAX) AND ADAPTIVE STRENGTH PROXIES.</p>
-                            <div className="mt-6 flex gap-2"><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[var(--accent-primary)]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div></div>
+                    <div className="vintage-card p-8 text-left group hover:border-[var(--accent-primary)] transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center mb-5 group-hover:from-blue-500/30 group-hover:to-cyan-500/30 transition-all">
+                            <Target size={24} className="text-blue-400" />
                         </div>
+                        <h3 className="text-lg font-heading mb-2 text-[var(--text-main)]">1RM Calculator</h3>
+                        <p className="text-sm text-[var(--text-muted)] leading-relaxed">Precision strength analytics to calculate your one-rep max and track progressive overload.</p>
                     </div>
 
-                    <div className="panel-technical p-10 bg-[#1D1916] border-2 border-[#26211D] text-left hover:border-[var(--accent-primary)] group transition-all relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><StickyNote size={120} /></div>
-                        <div className="relative z-10">
-                            <div className="w-16 h-16 bg-[#14110F] border-2 border-[#26211D] flex items-center justify-center mb-8 group-hover:border-[var(--accent-primary)] transition-all shadow-[4px_4px_0px_#000]">
-                                <StickyNote size={32} className="text-[var(--accent-primary)]" />
-                            </div>
-                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">ARCHIVE_X9</h3>
-                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">ANALOG-STYLE STICKY NOTE ARCHIVE FOR RECORDING CRITICAL TRAINING OBSERVATIONS AND LOGS.</p>
-                            <div className="mt-6 flex gap-2"><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[var(--accent-primary)]"></div></div>
+                    <div className="vintage-card p-8 text-left group hover:border-[var(--accent-primary)] transition-all duration-300">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-5 group-hover:from-amber-500/30 group-hover:to-orange-500/30 transition-all">
+                            <StickyNote size={24} className="text-amber-400" />
                         </div>
+                        <h3 className="text-lg font-heading mb-2 text-[var(--text-main)]">Smart Notes</h3>
+                        <p className="text-sm text-[var(--text-muted)] leading-relaxed">Keep track of your training observations and critical workout logs with sticky notes.</p>
                     </div>
-                </div>
-
-                {/* Stamped Background Text */}
-                <div className="absolute bottom-10 left-10 pointer-events-none opacity-[0.03] rotate-[-90deg] origin-bottom-left select-none">
-                    <span className="text-[200px] font-heading font-black tracking-[1em] uppercase">WFIT_PROTOCOL_X</span>
                 </div>
             </main>
 
-            <footer className="relative z-50 border-t-2 border-[#1D1916] py-12 px-8">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div className="flex items-center gap-3">
-                        <Terminal size={12} className="text-[var(--accent-primary)]" />
-                        <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">ENCRYPTED_TRANSMISSION // ALL_RIGHTS_RESERVED</span>
-                    </div>
-                    <div className="flex gap-8">
-                        <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">BUILD_STAMP: 2026.04.10</span>
-                        <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">STATUS: OPERATIONAL</span>
-                    </div>
+            <footer className="relative z-50 border-t border-[var(--border-color)] py-8 px-8">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                    <span className="text-xs text-[var(--text-muted)]">© 2026 WFIT. All rights reserved.</span>
+                    <span className="text-xs text-[var(--text-muted)]">v5.0 — Status: Operational</span>
                 </div>
             </footer>
-
-            <style>{`
-                .text-stamped {
-                    text-shadow: 1px 1px 0px rgba(255,255,255,0.05), -1px -1px 0px rgba(0,0,0,0.5);
-                }
-                @keyframes float {
-                    0%, 100% { transform: translateY(0) rotate(0); }
-                    50% { transform: translateY(-20px) rotate(1deg); }
-                }
-                .animate-float {
-                    animation: float 10s ease-in-out infinite;
-                }
-            `}</style>
         </div>
     );
 };

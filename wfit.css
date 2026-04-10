@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 /* Reset & Base Styles */
 *,
@@ -8,32 +8,34 @@
 }
 
 :root {
-  /* COLORS - VINTAGE WORKSHOP */
-  --bg-main: #14110F;
-  /* Deep Brown/Black */
-  --bg-card: #1D1916;
-  /* Slightly Lighter Panel */
-  --bg-hover: #26211D;
-  /* Hover State */
+  /* COLORS - MODERN GLASSMORPHIC DARK */
+  --bg-main: #0b0d14;
+  --bg-card: rgba(17, 20, 30, 0.8);
+  --bg-card-solid: #11141e;
+  --bg-hover: rgba(139, 92, 246, 0.06);
 
-  --accent-primary: #C87B2A;
-  /* Rusty Orange / Bronze */
-  --accent-secondary: #8A6FDF;
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #6366f1;
+  --accent-glow: rgba(139, 92, 246, 0.15);
 
-  --text-main: #EAEAEA;
-  --text-muted: #A09B96;
-  --text-dark: #14110F;
+  --text-main: #e8e8ed;
+  --text-muted: #6b7084;
+  --text-dark: #0b0d14;
 
-  --border-color: rgba(200, 123, 42, 0.2);
-  --border-strong: rgba(200, 123, 42, 0.5);
+  --border-color: rgba(139, 92, 246, 0.12);
+  --border-strong: rgba(139, 92, 246, 0.3);
 
-  --font-heading: 'Bebas Neue', sans-serif;
-  --font-body: 'Inter', 'IBM Plex Sans', sans-serif;
-  --font-accent: 'Pacifico', cursive;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --font-heading: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 
-  --radius-main: 4px;
-  --radius-sm: 2px;
+  --radius-main: 16px;
+  --radius-sm: 10px;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
 }
 
 /* Force Dark Mode Default */
@@ -41,7 +43,6 @@ html {
   color-scheme: dark;
   scroll-behavior: smooth;
   font-size: 14px;
-  /* Slightly smaller base font */
 }
 
 body {
@@ -54,11 +55,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  line-height: 1.5;
-  /* Tighter line height */
+  line-height: 1.6;
 }
 
-/* VINTAGE TEXTURE OVERLAY */
+/* SUBTLE GRID BACKGROUND */
 .texture-overlay {
   position: fixed;
   top: 0;
@@ -67,53 +67,27 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.05;
+  opacity: 0.02;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* TYPOGRAPHY UTILITIES */
-.bebas {
+/* TYPOGRAPHY */
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   font-family: var(--font-heading);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  line-height: 1;
-}
-
-.pacifico {
-  font-family: var(--font-accent);
-  text-transform: none;
-  letter-spacing: normal;
-  font-weight: 400;
-}
-
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3,
-h4,
-.h4 {
-  font-family: var(--font-heading);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 400;
+  font-weight: 700;
   margin: 0 0 0.5em 0;
   color: var(--text-main);
+  letter-spacing: -0.01em;
 }
 
 .font-heading {
   font-family: var(--font-heading);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .font-body {
   font-family: var(--font-body);
-}
-
-.font-accent {
-  font-family: var(--font-accent);
 }
 
 .font-mono {
@@ -124,27 +98,20 @@ h4,
   color: var(--accent-primary);
 }
 
-.text-purple {
-  color: var(--accent-secondary);
-}
-
 .text-muted {
   color: var(--text-muted);
 }
 
-/* COMPONENT STYLES - REPLACING GLASSMORPHISM */
-
-/* Card / Panel */
+/* CARD / PANEL - Glassmorphic */
 .vintage-card,
 .glass-card,
 .glass-panel {
-  background-color: var(--bg-card);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  /* Subtle, heavy shadow */
-  /* Remove backdrop filters if any remain in inline styles */
-  backdrop-filter: none !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Hover Effects */
@@ -152,57 +119,59 @@ h4,
 .hover-card:hover {
   border-color: var(--border-strong);
   transform: translateY(-2px);
-  transition: all 0.2s ease-out;
+  box-shadow: 0 8px 40px rgba(139, 92, 246, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Buttons */
 .btn-primary {
-  background-color: var(--accent-primary);
-  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
   font-family: var(--font-heading);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 0.65rem 1.5rem;
   border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
-  transition: all 0.2s;
-  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: #D98C3B;
-  /* Slightly lighter orange */
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
 .btn-secondary {
   background-color: transparent;
   color: var(--accent-primary);
-  border: 1px solid var(--accent-primary);
+  border: 1px solid var(--border-strong);
   font-family: var(--font-heading);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  padding: 0.65rem 1.5rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
 
 .btn-secondary:hover {
-  background-color: rgba(200, 123, 42, 0.1);
+  background-color: var(--accent-glow);
+  border-color: var(--accent-primary);
 }
 
 /* Inputs */
 input,
 select,
 textarea {
-  background-color: #0E0C0B;
-  border: 1px solid #3A3530;
+  background-color: rgba(17, 20, 30, 0.9);
+  border: 1px solid var(--border-color);
   color: var(--text-main);
-  padding: 0.5rem 0.8rem;
+  padding: 0.6rem 1rem;
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
@@ -210,21 +179,22 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 /* SCROLLBAR */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0E0C0B;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3A3530;
-  border-radius: 4px;
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -235,9 +205,8 @@ textarea:focus {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -245,75 +214,44 @@ textarea:focus {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* TECHNICAL UTILITIES */
-/* TECHNICAL / WORKSHOP UTILITIES */
-
+/* GRID BACKGROUND */
 .bg-grid-pattern {
-  background-size: 20px 20px;
+  background-size: 40px 40px;
   background-image:
-    linear-gradient(to right, rgba(200, 123, 42, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(200, 123, 42, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
 }
 
+/* Stamped text - now subtle glow */
 .text-stamped {
-  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.1), 0px -1px 0px rgba(0, 0, 0, 0.5);
-  font-weight: 400;
-  /* Thinner */
+  text-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+  font-weight: 700;
 }
 
-/* Panel with corner markers */
+/* Panel with corner markers - now glassmorphic */
 .panel-technical {
-  background-color: var(--bg-card);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   position: relative;
-  /* No rounding for technical look, or very minimal */
-  border-radius: 2px;
-}
-
-.panel-technical::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid var(--accent-primary);
-  border-left: 2px solid var(--accent-primary);
-}
-
-.panel-technical::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  right: -1px;
-  width: 8px;
-  height: 8px;
-  border-bottom: 2px solid var(--accent-primary);
-  border-right: 2px solid var(--accent-primary);
-}
-
-/* Overrides for vintage-card to be less "card-like" and more "plate-like" */
-.vintage-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
-  box-shadow: none;
-  /* Remove soft shadows */
-  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Hover Effects */
-.vintage-card:hover,
-.hover-card:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-2px);
-  transition: all 0.2s ease-out;
+.panel-technical::before,
+.panel-technical::after {
+  content: none;
 }
 
-/* Remove old gradients */
+.panel-technical:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.08);
+}
+
+/* Remove old utilities */
 .text-gradient,
 .mesh-gradient-bg,
 .glass {
@@ -322,4 +260,24 @@ textarea:focus {
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
+}
+
+/* Shadow utilities */
+.shadow-orange {
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+}
+
+/* Pacifico override - use clean font instead */
+.pacifico {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Bebas override */
+.bebas {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }

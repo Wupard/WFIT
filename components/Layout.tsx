@@ -110,10 +110,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
         <div
           className="flex items-center gap-2 cursor-pointer"
         >
-          <div className="bg-[var(--accent-primary)] p-1.5 rounded-[var(--radius-sm)]">
-            <Sparkles size={18} className="text-[#14110F]" />
+          <div className="bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] p-1.5 rounded-lg">
+            <Sparkles size={18} className="text-white" />
           </div>
-          <span className="text-xl font-heading tracking-wider text-[var(--accent-primary)]">WFIT</span>
+          <span className="text-xl font-heading text-[var(--text-main)]">WFIT</span>
         </div>
         <div className="flex items-center gap-2">
           {/* Notification Bell - Mobile */}
@@ -215,12 +215,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
               className="flex items-center gap-3 cursor-pointer group"
               onClick={() => { handleNav('dashboard'); }}
             >
-              <div className="relative bg-[var(--accent-primary)] p-2 rounded-[var(--radius-sm)] group-hover:bg-[#E08C3B] transition-colors">
-                <Sparkles size={20} className="text-[#14110F]" />
+              <div className="relative bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] p-2 rounded-lg group-hover:shadow-lg transition-all">
+                <Sparkles size={20} className="text-white" />
               </div>
               <div>
-                <span className="text-2xl font-heading tracking-widest text-[var(--text-main)] block leading-none group-hover:text-[var(--accent-primary)] transition-colors">WFIT</span>
-                <span className="text-[10px] text-[var(--text-muted)] font-bold tracking-[0.2em] uppercase block mt-1">WORKSHOP</span>
+                <span className="text-2xl font-heading text-[var(--text-main)] block leading-none group-hover:text-[var(--accent-primary)] transition-colors">WFIT</span>
+                <span className="text-[10px] text-[var(--text-muted)] font-medium block mt-1">Fitness Hub</span>
               </div>
             </div>
 
@@ -236,18 +236,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
               <button
                 key={item.id}
                 onClick={() => handleNav(item.id)}
-                className={`w-full flex items-center gap-3 px-5 py-2.5 transition-all duration-200 group relative border-l-2
+                className={`w-full flex items-center gap-3 px-5 py-2.5 transition-all duration-200 group relative rounded-lg mx-2 my-0.5
                   ${activeView === item.id
-                    ? 'border-[var(--accent-primary)] bg-[rgba(200,123,42,0.08)]'
-                    : 'border-transparent hover:border-[var(--border-strong)] hover:bg-[var(--bg-hover)]'
+                    ? 'bg-[var(--accent-glow)]'
+                    : 'hover:bg-[var(--bg-hover)]'
                   }`}
               >
                 {/* Icon Box */}
                 <div className={`
-                  relative z-10 w-8 h-8 flex items-center justify-center rounded-[2px] border transition-all duration-200
+                  relative z-10 w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200
                   ${activeView === item.id
-                    ? 'bg-[var(--accent-primary)] border-[var(--accent-primary)] text-[#14110F]' // Active: Solid Orange Box
-                    : 'bg-[#14110F] border-[var(--border-color)] text-[var(--text-muted)] group-hover:border-[var(--accent-primary)] group-hover:text-[var(--accent-primary)]' // Inactive: Dark Box
+                    ? 'bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white shadow-md'
+                    : 'text-[var(--text-muted)] group-hover:text-[var(--accent-primary)]'
                   }
                 `}>
                   <item.icon size={16} strokeWidth={activeView === item.id ? 2.5 : 2} />
@@ -255,10 +255,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
 
                 {/* Text Label */}
                 <span className={`
-                  relative z-10 text-base font-heading tracking-widest uppercase pt-0.5 transition-all duration-200 text-left
+                  relative z-10 text-sm font-medium transition-all duration-200 text-left
                   ${activeView === item.id
-                    ? 'text-[var(--text-main)] translate-x-1'
-                    : 'text-[var(--text-muted)] group-hover:text-[var(--text-main)] group-hover:translate-x-1'
+                    ? 'text-[var(--accent-primary)]'
+                    : 'text-[var(--text-muted)] group-hover:text-[var(--text-main)]'
                   }
                 `}>
                   {item.label}
@@ -302,8 +302,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-base md:text-sm font-bold text-[var(--text-main)] truncate font-heading tracking-wide uppercase">{user.name}</p>
-                  <p className="text-[10px] md:text-[9px] font-bold text-[#14110F] bg-[var(--accent-primary)] px-2 md:px-1.5 py-0.5 rounded-[2px] inline-block mt-1 md:mt-0.5">MEMBER</p>
+                  <p className="text-base md:text-sm font-medium text-[var(--text-main)] truncate">{user.name}</p>
+                  <p className="text-[10px] md:text-[9px] font-medium text-white bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] px-2 md:px-1.5 py-0.5 rounded-md inline-block mt-1 md:mt-0.5">MEMBER</p>
                 </div>
                 <button
                   onClick={(e) => { e.stopPropagation(); onLogout(); }}
