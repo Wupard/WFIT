@@ -1,0 +1,16 @@
+{
+    "rewrites": [
+        {
+            "source": "/zyro",
+            "destination": "https://zyro-theta.vercel.app/"
+        },
+        {
+            "source": "/zyro/:match*",
+            "destination": "https://zyro-theta.vercel.app/:match*"
+        },
+        {
+            "source": "/windex/:match*",
+            "destination": "https://windex-navy.vercel.app/:match*"
+        }
+    ]
+}
