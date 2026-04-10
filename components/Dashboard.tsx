@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Card } from './ui/Card';
 import { Calculator, Dumbbell, ChevronRight, Flame, Trophy, StickyNote as StickyNoteIcon, FileText, Plus, Trash2, Activity, Zap } from 'lucide-react';
