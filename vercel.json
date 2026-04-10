@@ -1,7 +1,14 @@
 {
-    "rewrites": [
+    "redirects": [
         {
             "source": "/zyro",
+            "destination": "/zyro/",
+            "permanent": true
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/zyro/",
             "destination": "https://zyro-theta.vercel.app/"
         },
         {
