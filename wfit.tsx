@@ -1,4 +1,6 @@
+// @ts-ignore
 import React from 'react';
+// @ts-ignore
 import ReactDOM from 'react-dom/client';
 import './wfit.css';
 import App from './App';
@@ -10,6 +12,7 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
+  // @ts-ignore
   <React.StrictMode>
     <App />
   </React.StrictMode>
