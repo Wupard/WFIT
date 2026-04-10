@@ -3,7 +3,6 @@ import { ViewState, Language, AppNotification } from '../types';
 import { getTranslation } from '../translations';
 import {
   LayoutDashboard,
-  Scale,
   Calculator,
   Menu,
   X,
@@ -14,7 +13,6 @@ import {
   Shield,
   Bell,
   Trophy,
-  Check,
   FlaskConical
 } from 'lucide-react';
 
@@ -89,7 +87,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
 
   const menuItems = useMemo(() => [
     { id: 'dashboard', label: getTranslation(language, 'dashboard'), icon: LayoutDashboard },
-    { id: 'weight', label: getTranslation(language, 'weight_tracker'), icon: Scale },
     { id: 'calculator', label: getTranslation(language, 'calculators'), icon: Calculator },
     { id: 'about', label: getTranslation(language, 'about_app'), icon: Info },
     { id: 'settings', label: getTranslation(language, 'settings'), icon: Settings },

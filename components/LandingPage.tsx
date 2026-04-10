@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, ArrowRight, Activity, ShieldCheck, Zap, Brain, Crosshair, Dumbbell, Terminal, ScanLine, ChevronRight } from 'lucide-react';
+import { Activity, Dumbbell, Terminal, Brain, Target, MessageSquare, StickyNote, ChevronRight } from 'lucide-react';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -21,7 +21,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-3xl font-heading tracking-[0.2em] uppercase text-stamped">WFIT</span>
-                        <span className="text-[8px] font-mono text-[var(--accent-primary)] font-bold tracking-[0.4em]">SYSTEM_VERSION_4.0</span>
+                        <span className="text-[8px] font-mono text-[var(--accent-primary)] font-bold tracking-[0.4em]">SYSTEM_VERSION_5.0</span>
                     </div>
                 </div>
                 <button
@@ -38,7 +38,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 <div className="inline-flex items-center gap-3 px-6 py-2 bg-[#14110F] border-2 border-[#26211D] mb-12 animate-fade-in relative">
                     <div className="absolute top-0 right-0 w-2 h-2 bg-[var(--accent-primary)] animate-ping"></div>
                     <div className="w-2 h-2 bg-[var(--accent-primary)] rounded-none"></div>
-                    <span className="text-[10px] font-mono font-bold text-[var(--accent-primary)] uppercase tracking-[0.3em]">NEW_PROTOCOL: AI_BIO_ANALYTICS // ACTIVE</span>
+                    <span className="text-[10px] font-mono font-bold text-[var(--accent-primary)] uppercase tracking-[0.3em]">NEW_PROTOCOL: CORE_ANALYTICS // ACTIVE</span>
                 </div>
 
                 <h1 className="text-6xl md:text-9xl font-heading font-black tracking-widest mb-10 leading-tight animate-fade-in uppercase text-stamped">
@@ -47,7 +47,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 </h1>
 
                 <p className="text-lg md:text-xl text-[var(--text-muted)] max-w-3xl mb-12 font-mono uppercase tracking-tight leading-relaxed animate-fade-in opacity-80" style={{ animationDelay: '0.2s' }}>
-                    <span className="text-[var(--accent-primary)] font-bold">// DATA_STREAM:</span> WFIT IS AN ANALOG-INSPIRED COMMAND HUB FOR HUMAN OPTIMIZATION. TRACK CALCULATED LOADS, SYNC NUTRITION VIA NEURAL SCANNING, AND ARCHIVE VISUAL PROGRESS.
+                    <span className="text-[var(--accent-primary)] font-bold">// DATA_STREAM:</span> WFIT IS AN ANALOG-INSPIRED COMMAND HUB FOR HUMAN OPTIMIZATION. RUN STRENGTH ANALYTICS, COMMAND NEURAL AI INTELLIGENCE, AND ARCHIVE CRITICAL TRAINING DATA.
                 </p>
 
                 <div className="flex flex-col md:flex-row gap-8 w-full md:w-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
@@ -69,34 +69,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Brain size={120} /></div>
                         <div className="relative z-10">
                             <div className="w-16 h-16 bg-[#14110F] border-2 border-[#26211D] flex items-center justify-center mb-8 group-hover:border-[var(--accent-primary)] transition-all shadow-[4px_4px_0px_#000]">
-                                <Brain size={32} className="text-[var(--accent-primary)]" />
+                                <MessageSquare size={32} className="text-[var(--accent-primary)]" />
                             </div>
-                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">NEURAL_DIET_LINK</h3>
-                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">BIO-ALGORITHMIC NUTRITION MODELS GENERATED THROUGH TARGETED PARAMETER SCANNING.</p>
+                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">NEURAL_COMMAND</h3>
+                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">ADVANCED AI CENTRAL INTERFACE FOR REAL-TIME BIOMETRIC INTELLIGENCE AND TRAINING STRATEGY.</p>
                             <div className="mt-6 flex gap-2"><div className="w-1.5 h-1.5 bg-[var(--accent-primary)]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div></div>
                         </div>
                     </div>
 
                     <div className="panel-technical p-10 bg-[#1D1916] border-2 border-[#26211D] text-left hover:border-[var(--accent-primary)] group transition-all relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><ScanLine size={120} /></div>
+                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Target size={120} /></div>
                         <div className="relative z-10">
                             <div className="w-16 h-16 bg-[#14110F] border-2 border-[#26211D] flex items-center justify-center mb-8 group-hover:border-[var(--accent-primary)] transition-all shadow-[4px_4px_0px_#000]">
-                                <ScanLine size={32} className="text-[var(--accent-primary)]" />
+                                <Target size={32} className="text-[var(--accent-primary)]" />
                             </div>
-                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">PROGRESS_ARCHIVE</h3>
-                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">HIGH-PRECISION VISUAL COMPARISON ARCHIVE FOR TRACKING MORPHOLOGICAL TRANSFORMATION OVER TIME.</p>
+                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">STRENGTH_ANALYTICS</h3>
+                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">HIGH-PRECISION COMMAND HUB FOR CALCULATING 1RM (ONE REP MAX) AND ADAPTIVE STRENGTH PROXIES.</p>
                             <div className="mt-6 flex gap-2"><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[var(--accent-primary)]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div></div>
                         </div>
                     </div>
 
                     <div className="panel-technical p-10 bg-[#1D1916] border-2 border-[#26211D] text-left hover:border-[var(--accent-primary)] group transition-all relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Dumbbell size={120} /></div>
+                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><StickyNote size={120} /></div>
                         <div className="relative z-10">
                             <div className="w-16 h-16 bg-[#14110F] border-2 border-[#26211D] flex items-center justify-center mb-8 group-hover:border-[var(--accent-primary)] transition-all shadow-[4px_4px_0px_#000]">
-                                <Dumbbell size={32} className="text-[var(--accent-primary)]" />
+                                <StickyNote size={32} className="text-[var(--accent-primary)]" />
                             </div>
-                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">KINETIC_ENGINES</h3>
-                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">HEAVY-DUTY WORKOUT PROTOCOLS DESIGNED FOR OPTIMAL MECHANICAL TENSION AND STRENGTH GAINS.</p>
+                            <h3 className="text-2xl font-heading tracking-widest mb-4 uppercase text-[var(--text-main)]">ARCHIVE_X9</h3>
+                            <p className="text-sm font-mono text-[var(--text-muted)] uppercase tracking-tight leading-relaxed line-clamp-3">ANALOG-STYLE STICKY NOTE ARCHIVE FOR RECORDING CRITICAL TRAINING OBSERVATIONS AND LOGS.</p>
                             <div className="mt-6 flex gap-2"><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[#26211D]"></div><div className="w-1.5 h-1.5 bg-[var(--accent-primary)]"></div></div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">ENCRYPTED_TRANSMISSION // ALL_RIGHTS_RESERVED</span>
                     </div>
                     <div className="flex gap-8">
-                        <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">BUILD_STAMP: 2026.02.08</span>
+                        <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">BUILD_STAMP: 2026.04.10</span>
                         <span className="text-[9px] font-mono font-bold text-[#3D3630] uppercase tracking-widest">STATUS: OPERATIONAL</span>
                     </div>
                 </div>

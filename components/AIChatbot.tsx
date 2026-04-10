@@ -35,7 +35,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ user }) => {
     setInput('');
     setIsLoading(true);
 
-    const context = `User Name: ${user.name}. Valid app features: Workout, Diet, Posture Analysis. Theme: Vintage Industrial Workshop. Tone: Serious, Disciplined, Technical.`;
+    const context = `User Name: ${user.name}. Valid app features: Dashboard, 1RM Calculator, Notes, Training Intelligence. Theme: Vintage Industrial Workshop. Tone: Serious, Disciplined, Technical.`;
 
     const responseText = await chatWithAI(userMsg.text, context);
 
