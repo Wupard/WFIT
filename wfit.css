@@ -56,6 +56,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   line-height: 1.6;
+  position: relative;
+}
+
+/* BACKGROUND ICONS SYSTEM */
+.view-bg-icon {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  font-size: 30rem;
+  color: var(--accent-primary);
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: -1;
+  transition: all 1s ease-in-out;
+  filter: blur(2px);
+  animation: bgPulse 10s infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% { transform: scale(1) rotate(0deg); opacity: 0.03; }
+  100% { transform: scale(1.1) rotate(5deg); opacity: 0.05; }
 }
 
 /* SUBTLE GRID BACKGROUND */

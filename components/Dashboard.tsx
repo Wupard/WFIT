@@ -195,38 +195,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lastPr, onNavigate, 
           subText={getTranslation(language, 'great_job')}
           delay={100}
         />
-        <StatCard
-          icon={Activity}
-          label={language === 'tr' ? 'HESAPLAMALAR' : 'ANALYSIS'}
-          value="READY"
-          unit=""
-          subText="SYSTEM STATUS"
-          delay={200}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 gap-6">
-        <div className="space-y-4 animate-slide-up" style={{ animationDelay: '300ms' }}>
-          <h2 className="text-xl font-heading font-semibold text-[var(--text-main)] flex items-center gap-3">
-            <div className="p-1.5 bg-[var(--accent-glow)] border border-[var(--border-color)] rounded-md text-[var(--accent-primary)]">
-              <Zap size={18} />
-            </div>
-            {getTranslation(language, 'quick_actions')}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ActionCard
-              icon={Calculator}
-              label={getTranslation(language, 'calculators')}
-              desc={getTranslation(language, 'essential_calcs')}
-              view="calculator"
-            />
-             <ActionCard
-              icon={FileText}
-              label={getTranslation(language, 'about_app')}
-              desc={getTranslation(language, 'educational_content')}
-              view="about"
-            />
-          </div>
+        <div onClick={() => onNavigate('calculator')} className="cursor-pointer">
+          <StatCard
+            icon={Activity}
+            label={language === 'tr' ? 'HESAPLAMALAR' : 'ANALYSIS'}
+            value={language === 'tr' ? 'HESAPLA' : 'GO'}
+            unit=""
+            subText="SYSTEM READY"
+            delay={200}
+          />
         </div>
       </div>
 

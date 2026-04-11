@@ -33,7 +33,6 @@ export const App = () => {
   const [lastPr, setLastPr] = useState<PRCalcResult | undefined>(undefined);
   const [historyLog, setHistoryLog] = useState<HistoryEvent[]>([]);
   const [notes, setNotes] = useState<StickyNote[]>([]); // Notes State
-  const [notifications, setNotifications] = useState<AppNotification[]>([]); // Notifications State
 
   // Simple Sync States
   const [syncStatus, setSyncStatus] = useState<'synced' | 'syncing' | 'error'>('synced');
@@ -75,8 +74,6 @@ export const App = () => {
             if (lsSettings) setSettings(JSON.parse(lsSettings));
             const lsNotes = localStorage.getItem('notes');
             if (lsNotes) setNotes(JSON.parse(lsNotes));
-            const lsNotifications = localStorage.getItem('notifications');
-            if (lsNotifications) setNotifications(JSON.parse(lsNotifications));
           } catch (e) {
             console.error('LocalStorage yükleme hatası:', e);
           }
@@ -91,7 +88,6 @@ export const App = () => {
             if (savedData.lastPr) setLastPr(savedData.lastPr);
             if (savedData.settings) setSettings(savedData.settings);
             if (savedData.notes) setNotes(savedData.notes);
-            if (savedData.notifications) setNotifications(savedData.notifications);
 
             if (savedData.photoUrl) {
               setUser(u => {
@@ -141,7 +137,6 @@ export const App = () => {
           settings,
           photoUrl: user?.photoUrl,
           notes,
-          notifications,
           historyLog
         };
 
@@ -186,23 +181,10 @@ export const App = () => {
   }, [settings.theme]);
 
   // Welcome notification on first load (must be before early returns)
+  // Welcome state tracking
   useEffect(() => {
     const welcomeShown = localStorage.getItem('welcome_shown');
-
-    // Sadece daha önce gösterilmediyse ekle
     if (user && !loadingData && !welcomeShown) {
-      const welcomeNotif: AppNotification = {
-        id: 'welcome',
-        title: settings.language === 'tr' ? 'Hoş Geldin! 🎉' : 'Welcome! 🎉',
-        message: settings.language === 'tr'
-          ? `Merhaba ${user.name}! Antrenmanına bugün de devam et.`
-          : `Hello ${user.name}! Keep up with your training today.`,
-        type: 'success',
-        createdAt: new Date().toISOString(),
-        read: false
-      };
-
-      setNotifications(prev => [welcomeNotif, ...prev]);
       localStorage.setItem('welcome_shown', 'true');
     }
   }, [user, loadingData, settings.language]);
@@ -269,13 +251,7 @@ export const App = () => {
     setNotes(notes.filter(n => n.id !== id));
   };
 
-  const handleMarkNotificationRead = (id: string) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
-  };
 
-  const handleClearAllNotifications = () => {
-    setNotifications([]);
-  };
 
   return (
     <Layout
@@ -285,9 +261,6 @@ export const App = () => {
       user={user}
       language={settings.language}
       syncStatus={syncStatus}
-      notifications={notifications}
-      onMarkNotificationRead={handleMarkNotificationRead}
-      onClearAllNotifications={handleClearAllNotifications}
     >
       {view === 'dashboard' && <Dashboard user={user} lastPr={lastPr} onNavigate={setView} language={settings.language} notes={notes} onAddNote={handleAddNote} onDeleteNote={handleDeleteNote} />}
 
@@ -302,7 +275,6 @@ export const App = () => {
         />
       )}
       {view === 'about' && <About language={settings.language} />}
-      {view === 'test' && <TestPage language={settings.language} />}
 
       <AIChatbot user={user} />
     </Layout>
