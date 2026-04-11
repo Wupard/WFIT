@@ -187,27 +187,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lastPr, onNavigate, 
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        <StatCard
-          icon={Trophy}
-          label={language === 'tr' ? 'EN YÜKSEK 1RM' : 'HEAVIEST 1RM'}
-          value={lastPr ? lastPr.oneRepMax : '-'}
-          unit="kg"
-          subText={getTranslation(language, 'great_job')}
-          delay={100}
-        />
-        <div onClick={() => onNavigate('calculator')} className="cursor-pointer">
-          <StatCard
-            icon={Activity}
-            label={language === 'tr' ? 'HESAPLAMALAR' : 'ANALYSIS'}
-            value={language === 'tr' ? 'HESAPLA' : 'GO'}
-            unit=""
-            subText="SYSTEM READY"
-            delay={200}
-          />
-        </div>
-      </div>
 
       {/* NOTES SECTION */}
       <div className="animate-slide-up mt-10" style={{ animationDelay: '700ms' }}>
