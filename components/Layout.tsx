@@ -52,7 +52,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   };
 
   return (
-    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative overflow-hidden items-stretch">
+    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative overflow-x-hidden">
       
       {/* Dynamic Silhoutte Background Icon */}
       <div className="view-bg-icon">
@@ -80,17 +80,16 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
         />
       )}
 
-      {/* Sidebar */}
-      <aside className={`
-        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out flex flex-col
+      {/* Sidebar Container */}
+      <div className={`
+        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out shrink-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         ${isSidebarCollapsed ? 'w-20' : 'w-72'}
-        border-r border-[var(--border-strong)] bg-[var(--bg-card)] backdrop-blur-xl
       `}>
-        <div className="flex-1 flex flex-col relative h-full">
+        <aside className="w-full h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)] backdrop-blur-xl flex flex-col relative overflow-hidden">
           
           {/* Collapse Toggle - Desktop Only */}
-            <button 
+          <button 
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
             className="hidden md:flex absolute -right-3 top-10 w-6 h-6 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border border-white/20 shadow-lg z-[60] hover:scale-110 transition-transform"
           >
@@ -98,7 +97,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
           </button>
 
           {/* Logo Area */}
-          <div className={`p-6 flex items-center gap-3 border-b border-[var(--border-color)] ${isSidebarCollapsed ? 'justify-center' : ''}`}>
+          <div className={`p-6 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
             <div className="bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] p-2.5 rounded-2xl shadow-lg shadow-[var(--accent-glow)]">
               <Sparkles size={22} className="text-white" />
             </div>
@@ -116,7 +115,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto py-8 space-y-2 px-3">
+          <nav className="flex-1 overflow-y-auto py-8 space-y-2 px-3 custom-scrollbar">
             {menuItems.map((item) => (
               <button
                 key={item.id}
@@ -138,7 +137,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
           </nav>
 
           {/* User Profile Card */}
-          <div className="p-4 border-t border-[var(--border-color)]">
+          <div className="p-4 border-t border-[var(--border-color)] shrink-0 bg-[var(--bg-card)]">
             <div 
               onClick={() => handleNav('settings')}
               className={`
@@ -171,11 +170,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
                </button>
             )}
           </div>
-        </div>
-      </aside>
+        </aside>
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 mt-16 md:mt-0 relative">
+      <main className="flex-1 p-6 md:p-10 mt-16 md:mt-0 relative min-w-0 min-h-screen">
         <div className="max-w-7xl mx-auto">
           {children}
         </div>
