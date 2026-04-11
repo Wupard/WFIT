@@ -96,7 +96,7 @@ export const Settings: React.FC<SettingsProps> = ({ user, settings, onUpdateSett
         <div className="absolute right-0 top-0 p-8 opacity-5 transform translate-x-10 -translate-y-10 pointer-events-none">
           <SettingsIcon size={180} className="text-[var(--accent-primary)]" />
         </div>
-        
+
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-4 mb-3">

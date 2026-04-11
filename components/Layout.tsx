@@ -52,7 +52,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   };
 
   return (
-    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative overflow-x-hidden">
+    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative">
       
       {/* Dynamic Silhoutte Background Icon */}
       <div className="view-bg-icon">
@@ -80,24 +80,22 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
         />
       )}
 
-      {/* Sidebar Container */}
       <div className={`
-        fixed md:sticky top-0 h-screen z-50 transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shrink-0 flex
+        fixed top-0 bottom-0 left-0 z-50 transition-all duration-300 ease-in-out flex
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-        ${isSidebarCollapsed ? 'w-24' : 'w-80'}
+        ${isSidebarCollapsed ? 'w-24' : 'w-72 sm:w-80'}
       `}>
-        <aside className="w-full min-h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)]/80 backdrop-blur-2xl flex flex-col relative overflow-hidden transition-all duration-500">
-          
-          {/* Collapse Toggle - Desktop Only */}
-          <button 
-            onClick={(e) => { e.stopPropagation(); setIsSidebarCollapsed(!isSidebarCollapsed); }}
-            className={`
-              hidden md:flex absolute -right-4 top-12 w-8 h-8 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border-4 border-[var(--bg-main)] shadow-xl z-[100] hover:scale-110 active:scale-95 transition-all duration-300
-              ${isSidebarCollapsed ? 'rotate-0' : 'rotate-0'}
-            `}
-          >
-            {isSidebarCollapsed ? <ChevronRight size={16} strokeWidth={3} /> : <ChevronLeft size={16} strokeWidth={3} />}
-          </button>
+        {/* Collapse Toggle - Desktop Only - Moved outside overflow-hidden container */}
+        <button 
+          onClick={(e) => { e.stopPropagation(); setIsSidebarCollapsed(!isSidebarCollapsed); }}
+          className={`
+            hidden md:flex absolute -right-4 top-12 w-8 h-8 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border-4 border-[var(--bg-main)] shadow-xl z-[100] hover:scale-110 active:scale-95 transition-transform duration-200
+          `}
+        >
+          {isSidebarCollapsed ? <ChevronRight size={16} strokeWidth={3} /> : <ChevronLeft size={16} strokeWidth={3} />}
+        </button>
+
+        <aside className="w-full min-h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)]/80 backdrop-blur-2xl flex flex-col relative overflow-hidden transition-all duration-300">
 
           {/* Logo Area */}
           <div className={`p-6 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
@@ -177,7 +175,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 mt-16 md:mt-0 relative min-w-0 min-h-screen">
+      <main className={`flex-1 p-4 sm:p-6 md:p-10 mt-16 md:mt-0 relative min-w-0 min-h-screen transition-all duration-300 ${isSidebarCollapsed ? 'md:ml-24' : 'md:ml-[20rem]'}`}>
         <div className="max-w-7xl mx-auto">
           {children}
         </div>

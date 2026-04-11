@@ -1,8 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import { Card } from './ui/Card';
-import { Button } from './ui/Button';
-import { Calculator, Info, Dumbbell, Save, CheckCircle, Target } from 'lucide-react';
+import { Calculator, Info, Dumbbell, Save, CheckCircle, Target, Scale, Activity, Zap, TrendingUp, User as UserIcon, Flame } from 'lucide-react';
 import { PRCalcResult, Language } from '../types';
 import { getTranslation } from '../translations';
 
@@ -11,17 +10,7 @@ interface CalculatorsProps {
   language: Language;
 }
 
-interface FloatingInputProps {
-  label: string;
-  value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-  type?: string;
-  suffix?: string;
-  step?: string;
-}
-
-const FloatingInput = ({ label, value, onChange, placeholder, type = "number", suffix, step = "any" }: FloatingInputProps) => (
+const FloatingInput = ({ label, value, onChange, placeholder, type = "number", suffix, step = "any" }: any) => (
   <div className="relative group w-full">
     <label className="text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider mb-2 block ml-1">
       {label}
@@ -30,8 +19,15 @@ const FloatingInput = ({ label, value, onChange, placeholder, type = "number", s
       <input
         type={type}
         step={step}
+        min="0"
+        max="999"
         value={value}
-        onChange={onChange}
+        onChange={(e) => {
+          const val = e.target.value;
+          if (val === '' || (parseFloat(val) <= 999 && parseFloat(val) >= 0)) {
+            onChange(e);
+          }
+        }}
         placeholder={placeholder}
         className="w-full px-5 py-3.5 bg-[var(--bg-main)] border border-[var(--border-color)] focus:border-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--accent-glow)] outline-none transition-all text-[var(--text-main)] font-medium placeholder-[var(--text-muted)] rounded-xl"
       />
@@ -44,141 +40,297 @@ const FloatingInput = ({ label, value, onChange, placeholder, type = "number", s
   </div>
 );
 
-// --- 1RM CALCULATOR ---
-const PRCalculatorTab = ({ onSave, language }: { onSave?: (pr: PRCalcResult) => void, language: Language }) => {
+// 1. PR (1RM) CALCULATOR
+const PRCalculator = ({ onSave, language }: any) => {
   const [weight, setWeight] = useState('');
   const [reps, setReps] = useState('');
   const [unit, setUnit] = useState<'kg' | 'lbs'>('kg');
-  const [result, setResult] = useState<{ oneRepMax: number, weightKg: number } | null>(null);
+  const [result, setResult] = useState(null);
   const [saved, setSaved] = useState(false);
 
-  const calculate = (e: React.FormEvent) => {
-    e.preventDefault();
-    let w = parseFloat(weight);
+  const calculate = () => {
+    const w = parseFloat(weight);
     const r = parseFloat(reps);
     if (w > 0 && r > 0) {
-      let weightInKg = unit === 'lbs' ? w * 0.45359237 : w;
-      const oneRepMax = Math.round(weightInKg * (1 + r / 30));
-      setResult({ oneRepMax, weightKg: weightInKg });
+      const weightKg = unit === 'lbs' ? w * 0.453592 : w;
+      const oneRepMax = Math.round(weightKg * (1 + r / 30));
+      setResult({ oneRepMax, weightKg });
       setSaved(false);
     }
   };
 
-  const handleSave = () => {
-    if (result && onSave) {
-      onSave({ weight: result.weightKg, reps: parseFloat(reps), oneRepMax: result.oneRepMax });
-      setSaved(true);
-    }
-  };
-
   return (
-    <div className="space-y-8 animate-fade-in relative z-10">
-      <div className="flex items-start gap-4 p-5 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-glow)] to-transparent opacity-20 pointer-events-none"></div>
-        <div className="absolute top-0 right-0 p-2 opacity-10"><Dumbbell size={64} /></div>
-        <Info className="text-[var(--accent-primary)] flex-shrink-0 mt-0.5 relative z-10" size={20} />
-        <div className="relative z-10">
-          <p className="text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider mb-1">Epley Formula</p>
-          <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-            Estimates your theoretical one-rep maximum based on submaximal efforts. Optimal accuracy when utilizing 1-10 repetitions.
-          </p>
-        </div>
+    <div className="space-y-6 animate-fade-in">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <FloatingInput label={getTranslation(language, 'weight')} value={weight} onChange={e => setWeight(e.target.value)} placeholder="0" suffix={unit.toUpperCase()} />
+        <FloatingInput label={getTranslation(language, 'repetitions')} value={reps} onChange={e => setReps(e.target.value)} placeholder="0" />
       </div>
-
-      <div className="flex justify-center mb-6">
-        <div className="flex p-1 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl">
-          {['kg', 'lbs'].map(u => (
-            <button
-              key={u} type="button" onClick={() => setUnit(u as any)}
-              className={`px-8 py-2 text-sm font-semibold tracking-wider rounded-lg transition-all
-                  ${unit === u ? 'bg-[var(--accent-primary)] text-white shadow-md' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'}`}
-            >
-              {u.toUpperCase()}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <form onSubmit={calculate} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FloatingInput label={`Weight`} value={weight} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWeight(e.target.value)} placeholder="0" suffix={unit.toUpperCase()} />
-          <FloatingInput label="Reps" value={reps} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReps(e.target.value)} placeholder="0" />
-        </div>
-        <button type="submit" className="btn-primary w-full py-4 text-lg mt-2">
-          {getTranslation(language, 'calculate') || 'Calculate 1RM'}
-        </button>
-      </form>
-
+      <button onClick={calculate} className="btn-primary w-full py-4 text-lg">{getTranslation(language, 'calculate')}</button>
       {result && (
-        <div className="animate-scale-in space-y-6 pt-6">
-          <div className="glass-card p-10 bg-[var(--bg-card)] border border-[var(--accent-primary)] text-center relative overflow-hidden rounded-2xl shadow-lg">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)] pointer-events-none"></div>
-            <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><Dumbbell size={180} /></div>
-            
-            <p className="text-xs text-[var(--text-muted)] uppercase font-semibold tracking-widest mb-4 relative z-10">Estimated 1RM</p>
-            <div className="flex items-baseline justify-center gap-3 mb-2 relative z-10">
-              <p className="text-7xl font-heading font-extrabold text-[var(--text-main)] tracking-tight m-0">{result.oneRepMax}</p>
-              <span className="text-xl font-heading font-bold text-[var(--accent-primary)]">KG</span>
-            </div>
+        <div className="p-8 bg-[var(--bg-card)] border border-[var(--accent-primary)] rounded-2xl text-center space-y-4 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><Dumbbell size={120} /></div>
+          <p className="text-xs text-[var(--text-muted)] uppercase font-bold tracking-[0.2em]">{getTranslation(language, 'estimated_1rm')}</p>
+          <div className="flex items-baseline justify-center gap-2">
+            <span className="text-6xl font-black text-[var(--text-main)]">{result.oneRepMax}</span>
+            <span className="text-xl font-bold text-[var(--accent-primary)]">KG</span>
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { l: 'Strength (90%)', v: Math.round(result.oneRepMax * 0.9) },
-              { l: 'Hypertrophy (70%)', v: Math.round(result.oneRepMax * 0.7) }
-            ].map((zone) => (
-              <div key={zone.l} className="p-5 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl text-center">
-                <p className="text-[10px] text-[var(--text-muted)] font-semibold uppercase mb-2 tracking-widest">{zone.l}</p>
-                <p className="text-2xl font-heading font-bold text-[var(--text-main)] m-0">{zone.v} <span className="text-xs font-semibold text-[var(--text-muted)]">KG</span></p>
-              </div>
-            ))}
-          </div>
-
-          {onSave && (
-            <button
-              onClick={handleSave} disabled={saved}
-              className={`w-full py-3.5 rounded-xl font-semibold tracking-wide uppercase transition-all flex items-center justify-center gap-2 mt-4
-                ${saved ? 'bg-green-500/10 border border-green-500/30 text-green-500 cursor-not-allowed' : 'bg-transparent border border-[var(--border-strong)] text-[var(--accent-primary)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)]'}`}
-            >
-              {saved ? <><CheckCircle size={18} /> Record Saved</> : <><Save size={18} /> Save Record</>}
-            </button>
-          )}
         </div>
       )}
     </div>
   );
 };
 
-export const Calculators: React.FC<CalculatorsProps> = ({ onSavePr, language }) => {
+// 2. UNIT CONVERTER
+const UnitConverter = ({ language }: any) => {
+  const [val, setVal] = useState('');
+  const kgToLbs = (v) => (parseFloat(v) * 2.20462).toFixed(2);
+  const lbsToKg = (v) => (parseFloat(v) * 0.453592).toFixed(2);
+
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20 px-4">
+    <div className="space-y-8 animate-fade-in">
+      <FloatingInput label={getTranslation(language, 'weight')} value={val} onChange={e => setVal(e.target.value)} placeholder="0" />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="p-6 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-2xl">
+          <p className="text-xs font-bold text-[var(--text-muted)] uppercase mb-2">KG → LBS</p>
+          <p className="text-3xl font-black text-[var(--text-main)]">{val ? kgToLbs(val) : '0'}<span className="text-sm ml-1 text-[var(--accent-primary)]">lb</span></p>
+        </div>
+        <div className="p-6 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-2xl">
+          <p className="text-xs font-bold text-[var(--text-muted)] uppercase mb-2">LBS → KG</p>
+          <p className="text-3xl font-black text-[var(--text-main)]">{val ? lbsToKg(val) : '0'}<span className="text-sm ml-1 text-[var(--accent-primary)]">kg</span></p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 3. BODY FAT (NAVY METHOD)
+const BodyFatCalc = ({ language }: any) => {
+  const [gender, setGender] = useState('male');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [waist, setWaist] = useState('');
+  const [neck, setNeck] = useState('');
+  const [hip, setHip] = useState('');
+  const [bf, setBf] = useState(null);
+
+  const calculate = () => {
+    const h = parseFloat(height), w = parseFloat(waist), n = parseFloat(neck), hp = parseFloat(hip);
+    if (!h || !w || !n) return;
+    let result;
+    if (gender === 'male') {
+      result = 495 / (1.0324 - 0.19077 * Math.log10(w - n) + 0.15456 * Math.log10(h)) - 450;
+    } else {
+      result = 495 / (1.29579 - 0.35004 * Math.log10(w + hp - n) + 0.221 * Math.log10(h)) - 450;
+    }
+    setBf(result.toFixed(1));
+  };
+
+  return (
+    <div className="space-y-6 animate-fade-in">
+       <div className="flex p-1 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl w-fit mx-auto mb-4">
+        <button onClick={() => setGender('male')} className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${gender === 'male' ? 'bg-[var(--accent-primary)] text-white' : 'text-[var(--text-muted)]'}`}>{getTranslation(language, 'male')}</button>
+        <button onClick={() => setGender('female')} className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${gender === 'female' ? 'bg-[var(--accent-primary)] text-white' : 'text-[var(--text-muted)]'}`}>{getTranslation(language, 'female')}</button>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <FloatingInput label={getTranslation(language, 'height')} value={height} onChange={e => setHeight(e.target.value)} placeholder="cm" suffix="CM" />
+        <FloatingInput label={getTranslation(language, 'waist')} value={waist} onChange={e => setWaist(e.target.value)} placeholder="cm" suffix="CM" />
+        <FloatingInput label={getTranslation(language, 'neck')} value={neck} onChange={e => setNeck(e.target.value)} placeholder="cm" suffix="CM" />
+        {gender === 'female' && <FloatingInput label={getTranslation(language, 'hip')} value={hip} onChange={e => setHip(e.target.value)} placeholder="cm" suffix="CM" />}
+      </div>
+      <button onClick={calculate} className="btn-primary w-full py-4 text-lg">{getTranslation(language, 'calculate_bodyfat')}</button>
+      {bf && (
+        <div className="p-8 bg-gradient-to-br from-[var(--bg-card)] to-[var(--bg-main)] border border-[var(--border-color)] rounded-2xl text-center">
+          <p className="text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-2">% Fat Percentage</p>
+          <p className="text-6xl font-black text-[var(--text-main)]">{bf}%</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 4. PROGRESS (STRENGTH COMPARISON)
+const StrengthProgress = ({ language }: any) => {
+  const [oldW, setOldW] = useState('');
+  const [oldR, setOldR] = useState('');
+  const [newW, setNewW] = useState('');
+  const [newR, setNewR] = useState('');
+  const [diff, setDiff] = useState(null);
+
+  const calculate = () => {
+    const old1RM = parseFloat(oldW) * (1 + parseFloat(oldR) / 30);
+    const new1RM = parseFloat(newW) * (1 + parseFloat(newR) / 30);
+    if (!old1RM || !new1RM) return;
+    setDiff(((new1RM - old1RM) / old1RM * 100).toFixed(1));
+  };
+
+  return (
+    <div className="space-y-8 animate-fade-in">
+      <div className="grid grid-cols-2 gap-6 pb-6 border-b border-[var(--border-color)]">
+        <h4 className="col-span-2 text-xs font-black text-[var(--accent-primary)] uppercase tracking-widest">{getTranslation(language, 'past_lift')}</h4>
+        <FloatingInput label="Weight" value={oldW} onChange={e => setOldW(e.target.value)} placeholder="kg" />
+        <FloatingInput label="Reps" value={oldR} onChange={e => setOldR(e.target.value)} placeholder="reps" />
+      </div>
+      <div className="grid grid-cols-2 gap-6">
+        <h4 className="col-span-2 text-xs font-black text-[var(--accent-secondary)] uppercase tracking-widest">{getTranslation(language, 'current_lift')}</h4>
+        <FloatingInput label="Weight" value={newW} onChange={e => setNewW(e.target.value)} placeholder="kg" />
+        <FloatingInput label="Reps" value={newR} onChange={e => setNewR(e.target.value)} placeholder="reps" />
+      </div>
+      <button onClick={calculate} className="btn-primary w-full py-4 text-lg">{getTranslation(language, 'compare_strength')}</button>
+      {diff !== null && (
+        <div className="p-8 glass-card border-[3px] border-[var(--accent-primary)] text-center rounded-3xl">
+          <TrendingUp className="mx-auto mb-4 text-[var(--accent-primary)]" size={40} />
+          <p className="text-2xl font-black text-[var(--text-main)]">{getTranslation(language, 'comparison_result').replace('{diff}', diff)}</p>
+          <div className="mt-4 h-2 bg-[var(--bg-main)] rounded-full overflow-hidden">
+             <div className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] transition-all duration-1000" style={{ width: `${Math.min(100, Math.max(0, parseFloat(diff)))}%` }}></div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 5. MACROS & CALORIES (SURPLUS/MAINTAIN)
+const MacroCalc = ({ language }: any) => {
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('male');
+  const [activity, setActivity] = useState('1.2');
+  const [macros, setMacros] = useState(null);
+
+  const calculate = () => {
+    const w = parseFloat(weight), h = parseFloat(height), a = parseFloat(age), act = parseFloat(activity);
+    if (!w || !h || !a) return;
+    
+    // Mifflin-St Jeor
+    let bmr = gender === 'male' 
+      ? (10 * w) + (6.25 * h) - (5 * a) + 5
+      : (10 * w) + (6.25 * h) - (5 * a) - 161;
+    
+    const tdee = bmr * act;
+    setMacros({
+      kcal: Math.round(tdee),
+      p: Math.round(w * 2), // 2g/kg
+      f: Math.round(w * 0.8), // 0.8g/kg
+      c: Math.round((tdee - (w * 2 * 4) - (w * 0.8 * 9)) / 4)
+    });
+  };
+
+  return (
+    <div className="space-y-6 animate-fade-in">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <FloatingInput label={getTranslation(language, 'weight')} value={weight} onChange={e => setWeight(e.target.value)} placeholder="kg" />
+        <FloatingInput label={getTranslation(language, 'height')} value={height} onChange={e => setHeight(e.target.value)} placeholder="cm" />
+        <FloatingInput label={getTranslation(language, 'age')} value={age} onChange={e => setAge(e.target.value)} placeholder="years" />
+      </div>
+      <div className="space-y-3">
+        <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest">{getTranslation(language, 'activity_level')}</label>
+        <select 
+          value={activity} 
+          onChange={e => setActivity(e.target.value)}
+          className="w-full px-5 py-3.5 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl outline-none text-[var(--text-main)]"
+        >
+          <option value="1.2">{getTranslation(language, 'sedentary')}</option>
+          <option value="1.375">{getTranslation(language, 'light_active')}</option>
+          <option value="1.55">{getTranslation(language, 'mod_active')}</option>
+          <option value="1.725">{getTranslation(language, 'very_active')}</option>
+          <option value="1.9">{getTranslation(language, 'extra_active')}</option>
+        </select>
+      </div>
+      <button onClick={calculate} className="btn-primary w-full py-4 text-lg">{getTranslation(language, 'calculate_macros')}</button>
+      {macros && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4">
+          <div className="p-4 bg-[var(--accent-glow)] border border-[var(--accent-primary)] rounded-2xl text-center">
+             <Flame className="mx-auto mb-1 text-[var(--accent-primary)]" size={20} />
+             <p className="text-[10px] uppercase font-black text-[var(--text-muted)]">{getTranslation(language, 'calories')}</p>
+             <p className="text-2xl font-black text-[var(--text-main)]">{macros.kcal}</p>
+          </div>
+          <div className="p-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl text-center">
+             <p className="text-[10px] uppercase font-black text-[var(--text-muted)]">{getTranslation(language, 'protein')}</p>
+             <p className="text-2xl font-black text-blue-400">{macros.p}g</p>
+          </div>
+          <div className="p-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl text-center">
+             <p className="text-[10px] uppercase font-black text-[var(--text-muted)]">{getTranslation(language, 'carbs')}</p>
+             <p className="text-2xl font-black text-amber-500">{macros.c}g</p>
+          </div>
+          <div className="p-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl text-center">
+             <p className="text-[10px] uppercase font-black text-[var(--text-muted)]">{getTranslation(language, 'fats')}</p>
+             <p className="text-2xl font-black text-rose-500">{macros.f}g</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export const Calculators: React.FC<CalculatorsProps> = ({ onSavePr, language }) => {
+  const [activeTab, setActiveTab] = useState('1rm');
+
+  const tabs = [
+    { id: '1rm', icon: Target, label: getTranslation(language, 'tab_1rm') },
+    { id: 'converter', icon: Scale, label: getTranslation(language, 'tab_lbs_kg') },
+    { id: 'bodyfat', icon: UserIcon, label: getTranslation(language, 'tab_bodyfat') },
+    { id: 'progress', icon: TrendingUp, label: getTranslation(language, 'tab_progress') },
+    { id: 'macros', icon: Zap, label: getTranslation(language, 'tab_macros') },
+  ];
+
+  return (
+    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in pb-20 px-4">
       {/* Header */}
-      <div className="glass-card p-10 relative overflow-hidden rounded-2xl border border-[var(--border-color)]">
+      <div className="glass-card p-8 md:p-12 relative overflow-hidden rounded-[2.5rem] border border-[var(--border-color)]">
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-glow)] to-transparent opacity-50 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 p-8 opacity-5 transform translate-x-10 -translate-y-10 pointer-events-none">
-          <Calculator size={180} className="text-[var(--accent-primary)]" />
+        <div className="absolute right-0 top-0 p-8 opacity-[0.03] transform translate-x-10 -translate-y-10 pointer-events-none">
+          <Calculator size={300} className="text-[var(--accent-primary)]" />
         </div>
         
-        <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
-              <div className="p-3.5 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl shadow-lg border border-white/10">
-                <Calculator size={28} className="text-white" />
+            <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+              <div className="p-4 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-2xl shadow-2xl shadow-[var(--accent-glow)] border border-white/10">
+                <Calculator size={32} className="text-white" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-heading font-extrabold text-[var(--text-main)]">
-                {getTranslation(language, 'calculators') || 'Analytics'}
+              <h2 className="text-4xl md:text-6xl font-heading font-black text-[var(--text-main)] tracking-tight">
+                {getTranslation(language, 'calculators')}
               </h2>
             </div>
-            <p className="text-[var(--text-muted)] text-sm font-medium">
-              Precision tools for strength tracking
+            <p className="text-[var(--text-muted)] text-lg font-medium opacity-80 max-w-xl">
+              {getTranslation(language, 'essential_calcs')}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="glass-card border border-[var(--border-color)] p-8 lg:p-10 rounded-2xl relative">
-         <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent-primary)] opacity-[0.03] blur-[80px] pointer-events-none rounded-full"></div>
-        <PRCalculatorTab onSave={onSavePr} language={language} />
+      {/* Tabs Layout */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Tab Switcher */}
+        <div className="lg:w-72 flex flex-row lg:flex-col gap-2 p-2 bg-[var(--bg-card)]/50 backdrop-blur-md rounded-3xl border border-[var(--border-color)] overflow-x-auto lg:overflow-x-visible hide-scrollbar sticky top-24 h-fit z-30">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`
+                flex items-center gap-3 px-5 py-4 rounded-2xl transition-all duration-300 min-w-fit flex-1 lg:flex-none
+                ${activeTab === tab.id 
+                  ? 'bg-[var(--accent-primary)] text-white shadow-lg shadow-[var(--accent-glow)] scale-[1.02]' 
+                  : 'text-[var(--text-muted)] hover:bg-[var(--bg-main)] hover:text-[var(--text-main)]'}
+              `}
+            >
+              <tab.icon size={20} className={activeTab === tab.id ? 'text-white' : 'text-[var(--accent-primary)]'} />
+              <span className="font-bold text-sm whitespace-nowrap">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 glass-card p-6 md:p-10 rounded-[2rem] border border-[var(--border-color)] min-h-[500px] relative bg-gradient-to-b from-[var(--bg-card)] to-transparent">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent-primary)] opacity-[0.05] blur-[100px] pointer-events-none rounded-full"></div>
+          
+          {activeTab === '1rm' && <PRCalculator language={language} onSave={onSavePr} />}
+          {activeTab === 'converter' && <UnitConverter language={language} />}
+          {activeTab === 'bodyfat' && <BodyFatCalc language={language} />}
+          {activeTab === 'progress' && <StrengthProgress language={language} />}
+          {activeTab === 'macros' && <MacroCalc language={language} />}
+        </div>
       </div>
     </div>
   );

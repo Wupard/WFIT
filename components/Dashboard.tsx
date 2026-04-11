@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 import { Card } from './ui/Card';
-import { Calculator, Dumbbell, ChevronRight, Flame, Trophy, StickyNote as StickyNoteIcon, FileText, Plus, Trash2, Activity, Zap } from 'lucide-react';
+import { Calculator, Dumbbell, ChevronRight, Flame, Trophy, StickyNote as StickyNoteIcon, FileText, Plus, Trash2, Activity, Zap, LayoutGrid, Wind } from 'lucide-react';
 import { PRCalcResult, ViewState, User, StickyNote } from '../types';
 
 import { getTranslation, getDailyQuote } from '../translations';
@@ -136,39 +136,89 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lastPr, onNavigate, 
   return (
     <div className="space-y-8 pb-10">
       {/* Greeting Header */}
-      <div className="glass-card p-10 md:p-12 mb-10 border border-[var(--border-color)] overflow-hidden relative group rounded-3xl">
+      <div className="glass-card p-6 sm:p-8 md:p-12 mb-6 md:mb-10 border border-[var(--border-color)] overflow-hidden relative group rounded-3xl">
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-card)] to-transparent pointer-events-none"></div>
         <div className="absolute -inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(139,92,246,0.15),transparent_50%)] pointer-events-none"></div>
         
-        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 lg:gap-8">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-[var(--accent-glow)] text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full border border-[var(--accent-primary)]/20 shadow-sm shadow-[var(--accent-glow)]">
                 {language === 'tr' ? 'AKTİF' : 'ACTIVE'}
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-heading font-black text-[var(--text-main)] leading-[1.1] tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-[var(--text-main)] leading-[1.1] tracking-tight">
               {language === 'tr' ? 'Tekrar Hoş Geldin,' : 'Good to see you,'}<br />
               <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">{user.name}</span>
             </h1>
             <p className="text-[var(--text-muted)] text-lg font-medium max-w-xl leading-relaxed opacity-80">
               {getTranslation(language, 'ready_to_crush')}
             </p>
+            
+            <div className="pt-2 flex flex-wrap gap-4">
+              <a 
+                href="https://wupard.xyz/zyro" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-main)]/40 backdrop-blur-md border border-[var(--border-color)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)] text-[var(--text-main)] font-bold rounded-2xl transition-all group/zyro shadow-lg hover:shadow-[var(--accent-glow)]"
+              >
+                <div className="p-1.5 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg text-white group-hover/zyro:scale-110 transition-transform">
+                  <LayoutGrid size={16} />
+                </div>
+                {getTranslation(language, 'zyro_hub')}
+                <ChevronRight size={16} className="text-[var(--text-muted)] group-hover/zyro:translate-x-1 transition-transform" />
+              </a>
+
+              <a 
+                href="https://wupard.xyz/windex" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-main)]/40 backdrop-blur-md border border-[var(--border-color)] hover:border-blue-500/50 hover:bg-blue-500/10 text-[var(--text-main)] font-bold rounded-2xl transition-all group/windex shadow-lg hover:shadow-blue-500/20"
+              >
+                <div className="p-1.5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg text-white group-hover/windex:scale-110 transition-transform">
+                  <Wind size={16} />
+                </div>
+                {getTranslation(language, 'windex_hub')}
+                <ChevronRight size={16} className="text-[var(--text-muted)] group-hover/windex:translate-x-1 transition-transform" />
+              </a>
+            </div>
           </div>
 
-          <div className="hidden lg:flex flex-col items-end gap-2">
-            <span className="text-[10px] text-[var(--accent-primary)] font-black uppercase tracking-[0.3em] mb-1">Calendar</span>
-            <div className="text-sm font-bold text-[var(--text-main)] bg-[var(--bg-main)]/60 backdrop-blur-md border border-[var(--border-color)] px-6 py-3 rounded-2xl shadow-xl">
-              {new Date().toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+          <div className="hidden lg:flex flex-col items-end gap-3 translate-y-2">
+            <div className="flex items-center gap-2 group/cal cursor-default">
+              <div className="w-1.5 h-1.5 bg-[var(--accent-primary)] rounded-full animate-pulse shadow-[0_0_8px_var(--accent-primary)]" />
+              <span className="text-[10px] text-[var(--accent-primary)] font-black uppercase tracking-[0.4em] opacity-80 group-hover/cal:opacity-100 transition-opacity">
+                {getTranslation(language, 'calendar')}
+              </span>
+            </div>
+            
+            <div className="flex items-stretch gap-0.5 bg-[var(--bg-main)]/40 backdrop-blur-xl border border-[var(--border-color)] p-1 rounded-2xl shadow-2xl overflow-hidden group/date hover:border-[var(--accent-primary)]/30 transition-all duration-500">
+              <div className="flex flex-col items-center justify-center bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] px-4 py-2 rounded-xl text-white shadow-lg">
+                <span className="text-[10px] font-black uppercase tracking-tighter opacity-80 leading-none mb-1">
+                  {new Date().toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', { month: 'short' })}
+                </span>
+                <span className="text-2xl font-black leading-none">
+                  {new Date().getDate()}
+                </span>
+              </div>
+              <div className="flex flex-col justify-center px-5 py-2">
+                <span className="text-sm font-bold text-[var(--text-main)] leading-none mb-1">
+                  {new Date().toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', { weekday: 'long' })}
+                </span>
+                <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">
+                  {new Date().getFullYear()}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Daily Directive */}
-      <div className="relative overflow-hidden rounded-2xl border border-[var(--border-color)] bg-gradient-to-br from-[var(--bg-card)] to-[var(--bg-main)] p-8 shadow-lg animate-fade-in-up mb-8 group hover:border-[var(--border-strong)] transition-colors">
-        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none transform translate-x-8 -translate-y-8">
-          <Flame size={120} className="text-[var(--accent-primary)]" />
+      <div className="relative overflow-hidden rounded-2xl border border-[var(--border-color)] bg-gradient-to-br from-[var(--bg-card)] to-[var(--bg-main)] p-6 md:p-8 shadow-lg animate-fade-in-up mb-6 md:mb-8 group hover:border-[var(--border-strong)] transition-colors">
+        <div className="absolute top-0 right-0 p-4 md:p-8 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none transform translate-x-4 -translate-y-4 md:translate-x-8 md:-translate-y-8">
+          <Flame size={120} className="text-[var(--accent-primary)] hidden sm:block" />
+          <Flame size={80} className="text-[var(--accent-primary)] sm:hidden" />
         </div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_100%,rgba(139,92,246,0.08),transparent_50%)] pointer-events-none"></div>
 
@@ -179,7 +229,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lastPr, onNavigate, 
             </div>
             <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider">Daily Inspiration</span>
           </div>
-          <p className="text-2xl md:text-3xl font-heading font-medium leading-relaxed mb-6 text-[var(--text-main)]">"{dailyQuote.text}"</p>
+          <p className="text-xl sm:text-2xl md:text-3xl font-heading font-medium leading-relaxed mb-6 text-[var(--text-main)]">"{dailyQuote.text}"</p>
           <div className="flex items-center gap-3">
             <div className="h-px w-8 bg-[var(--border-strong)] transition-colors group-hover:bg-[var(--accent-primary)]" />
             <p className="text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-widest">{dailyQuote.author}</p>
