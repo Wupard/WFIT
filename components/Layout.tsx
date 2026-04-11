@@ -82,18 +82,21 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
 
       {/* Sidebar Container */}
       <div className={`
-        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out shrink-0 flex
+        fixed md:sticky top-0 h-screen z-50 transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shrink-0 flex
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-        ${isSidebarCollapsed ? 'w-20' : 'w-72'}
+        ${isSidebarCollapsed ? 'w-24' : 'w-80'}
       `}>
-        <aside className="w-full min-h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)] backdrop-blur-xl flex flex-col relative overflow-hidden">
+        <aside className="w-full min-h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)]/80 backdrop-blur-2xl flex flex-col relative overflow-hidden transition-all duration-500">
           
           {/* Collapse Toggle - Desktop Only */}
           <button 
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="hidden md:flex absolute -right-3 top-10 w-6 h-6 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border border-white/20 shadow-lg z-[60] hover:scale-110 transition-transform"
+            onClick={(e) => { e.stopPropagation(); setIsSidebarCollapsed(!isSidebarCollapsed); }}
+            className={`
+              hidden md:flex absolute -right-4 top-12 w-8 h-8 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border-4 border-[var(--bg-main)] shadow-xl z-[100] hover:scale-110 active:scale-95 transition-all duration-300
+              ${isSidebarCollapsed ? 'rotate-0' : 'rotate-0'}
+            `}
           >
-            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+            {isSidebarCollapsed ? <ChevronRight size={16} strokeWidth={3} /> : <ChevronLeft size={16} strokeWidth={3} />}
           </button>
 
           {/* Logo Area */}
