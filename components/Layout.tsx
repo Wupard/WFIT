@@ -82,11 +82,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
 
       {/* Sidebar Container */}
       <div className={`
-        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out shrink-0
+        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out shrink-0 flex
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         ${isSidebarCollapsed ? 'w-20' : 'w-72'}
       `}>
-        <aside className="w-full h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)] backdrop-blur-xl flex flex-col relative overflow-hidden">
+        <aside className="w-full min-h-full border-r border-[var(--border-strong)] bg-[var(--bg-card)] backdrop-blur-xl flex flex-col relative overflow-hidden">
           
           {/* Collapse Toggle - Desktop Only */}
           <button 
