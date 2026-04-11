@@ -52,7 +52,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   };
 
   return (
-    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative overflow-hidden">
+    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative overflow-hidden items-stretch">
       
       {/* Dynamic Silhoutte Background Icon */}
       <div className="view-bg-icon">
@@ -82,17 +82,17 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
 
       {/* Sidebar */}
       <aside className={`
-        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out
+        fixed md:sticky top-0 h-screen z-50 transition-all duration-300 ease-in-out flex flex-col
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         ${isSidebarCollapsed ? 'w-20' : 'w-72'}
         border-r border-[var(--border-strong)] bg-[var(--bg-card)] backdrop-blur-xl
       `}>
-        <div className="h-full flex flex-col relative">
+        <div className="flex-1 flex flex-col relative h-full">
           
           {/* Collapse Toggle - Desktop Only */}
-          <button 
+            <button 
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="hidden md:flex absolute -right-3 top-20 w-6 h-6 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border border-white/20 shadow-lg z-50 hover:scale-110 transition-transform"
+            className="hidden md:flex absolute -right-3 top-10 w-6 h-6 bg-[var(--accent-primary)] text-white rounded-full items-center justify-center border border-white/20 shadow-lg z-[60] hover:scale-110 transition-transform"
           >
             {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
           </button>

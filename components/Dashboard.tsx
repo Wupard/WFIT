@@ -136,27 +136,29 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lastPr, onNavigate, 
   return (
     <div className="space-y-8 pb-10">
       {/* Greeting Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 animate-fade-in border-b border-[var(--border-color)] pb-8 mb-8 relative">
-        <div className="absolute -inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(139,92,246,0.15),transparent_50%)] pointer-events-none -ml-8 -mt-8"></div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="px-2.5 py-1 bg-[var(--accent-glow)] text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-wider rounded-md border border-[var(--border-color)]">
-              Online
-            </span>
+      <div className="glass-card p-10 md:p-12 mb-10 border border-[var(--border-color)] overflow-hidden relative group rounded-3xl">
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-card)] to-transparent pointer-events-none"></div>
+        <div className="absolute -inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(139,92,246,0.15),transparent_50%)] pointer-events-none"></div>
+        
+        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 bg-[var(--accent-glow)] text-[var(--accent-primary)] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full border border-[var(--accent-primary)]/20 shadow-sm shadow-[var(--accent-glow)]">
+                {language === 'tr' ? 'AKTİF' : 'ACTIVE'}
+              </span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-heading font-black text-[var(--text-main)] leading-[1.1] tracking-tight">
+              {language === 'tr' ? 'Tekrar Hoş Geldin,' : 'Good to see you,'}<br />
+              <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">{user.name}</span>
+            </h1>
+            <p className="text-[var(--text-muted)] text-lg font-medium max-w-xl leading-relaxed opacity-80">
+              {getTranslation(language, 'ready_to_crush')}
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-heading font-extrabold text-[var(--text-main)] leading-tight mb-2">
-            Good to see you,<br />
-            <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">{user.name}</span>
-          </h1>
-          <p className="text-[var(--text-muted)] text-base font-body max-w-lg leading-relaxed">
-            {getTranslation(language, 'ready_to_crush')}
-          </p>
-        </div>
 
-        <div className="hidden lg:block self-start md:self-end relative z-10">
-          <div className="flex flex-col items-end gap-1.5">
-            <span className="text-xs text-[var(--text-muted)] font-medium">Today</span>
-            <div className="text-sm font-medium text-[var(--text-main)] bg-[var(--bg-main)] border border-[var(--border-color)] px-4 py-2 rounded-lg">
+          <div className="hidden lg:flex flex-col items-end gap-2">
+            <span className="text-[10px] text-[var(--accent-primary)] font-black uppercase tracking-[0.3em] mb-1">Calendar</span>
+            <div className="text-sm font-bold text-[var(--text-main)] bg-[var(--bg-main)]/60 backdrop-blur-md border border-[var(--border-color)] px-6 py-3 rounded-2xl shadow-xl">
               {new Date().toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </div>
           </div>
