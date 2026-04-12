@@ -300,5 +300,16 @@ textarea:focus {
   font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1;
+/* Google Button Fix */
+#google-button-container {
+  min-height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+#google-button-container iframe {
+  color-scheme: light !important;
 }

@@ -41,11 +41,13 @@ export const GoogleOneTap: React.FC<GoogleOneTapProps> = ({ onSuccess, onError }
                 window.google.accounts.id.renderButton(
                     buttonDiv,
                     { 
-                        theme: 'outline', 
+                        theme: 'filled_black', 
                         size: 'large', 
                         shape: 'pill', 
-                        width: '320',
-                        logo_alignment: 'left'
+                        width: '350', // Sabit genişlik yerine daha uygun bir değer
+                        logo_alignment: 'left',
+                        text: 'signin_with',
+                        locale: 'tr'
                     }
                 );
             }
