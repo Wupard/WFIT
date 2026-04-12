@@ -80,10 +80,6 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
-  const validateEmail = (email: string) => {
-    const validDomains = ['@gmail.com', '@hotmail.com'];
-    return validDomains.some(domain => email.toLowerCase().endsWith(domain));
-  };
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,11 +110,6 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setLoading(true);
     if (!email || !password || !confirmPassword || !username) {
       showToast('Tüm alanları doldurun.', 'error');
-      setLoading(false);
-      return;
-    }
-    if (!validateEmail(email)) {
-      showToast('Sadece @gmail.com ve @hotmail.com.', 'error');
       setLoading(false);
       return;
     }
