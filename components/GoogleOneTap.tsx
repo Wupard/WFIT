@@ -31,7 +31,8 @@ export const GoogleOneTap: React.FC<GoogleOneTapProps> = ({ onSuccess, onError }
                     }
                 },
                 auto_select: false, 
-                cancel_on_tap_outside: true
+                cancel_on_tap_outside: true,
+                ux_mode: 'popup'
             });
 
             // Resmi Google Butonunu Render Et
@@ -39,7 +40,13 @@ export const GoogleOneTap: React.FC<GoogleOneTapProps> = ({ onSuccess, onError }
             if (buttonDiv) {
                 window.google.accounts.id.renderButton(
                     buttonDiv,
-                    { theme: 'filled_black', size: 'large', shape: 'pill', width: '380' }
+                    { 
+                        theme: 'outline', 
+                        size: 'large', 
+                        shape: 'pill', 
+                        width: '320',
+                        logo_alignment: 'left'
+                    }
                 );
             }
 
