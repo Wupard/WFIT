@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "public", 
+    "rewrites": [
+      {
+        "source": "/__/auth/**",
+        "destination": "https://wfit-9de7b.firebaseapp.com/__/auth/**"
+      }
+    ]
+  }
+}
