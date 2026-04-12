@@ -28,6 +28,29 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   
+  // Swipe & Drag Logic
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  const handleDragEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 75; // px
+
+    if (distance < -minSwipeDistance) {
+      // Swiped right -> Open menu or uncollapse
+      if (window.innerWidth < 768) setIsSidebarOpen(true);
+      else setIsSidebarCollapsed(false);
+    } else if (distance > minSwipeDistance) {
+      // Swiped left -> Close menu or collapse
+      if (window.innerWidth < 768) setIsSidebarOpen(false);
+      else setIsSidebarCollapsed(true);
+    }
+    
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   // Dynamic Background Icon based on view
   const ViewBackgroundIcon = useMemo(() => {
     switch (activeView) {
@@ -52,7 +75,16 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   };
 
   return (
-    <div className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative">
+    <div 
+      className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative"
+      onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; touchEndX.current = null; }}
+      onTouchMove={(e) => { touchEndX.current = e.targetTouches[0].clientX; }}
+      onTouchEnd={handleDragEnd}
+      onMouseDown={(e) => { touchStartX.current = e.clientX; touchEndX.current = null; }}
+      onMouseMove={(e) => { if (e.buttons === 1) touchEndX.current = e.clientX; }}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+    >
       
       {/* Dynamic Silhoutte Background Icon */}
       <div className="view-bg-icon">
