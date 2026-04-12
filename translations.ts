@@ -11,7 +11,7 @@ export const translations = {
         logout: "Log Out",
         pro_member: "Pro Member",
         calendar: "Calendar",
-        zyro_hub: "Zyro Hub",
+        zyro_hub: "Zyro",
         windex_hub: "WIndex",
 
         // Dashboard
@@ -131,7 +131,7 @@ export const translations = {
         logout: "Çıkış Yap",
         pro_member: "Pro Üye",
         calendar: "Takvim",
-        zyro_hub: "Zyro Merkezi",
+        zyro_hub: "Zyro",
         windex_hub: "WIndex",
 
         // Dashboard
