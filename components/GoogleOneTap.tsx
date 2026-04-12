@@ -16,35 +16,35 @@ declare global {
 export const GoogleOneTap: React.FC<GoogleOneTapProps> = ({ onSuccess, onError }) => {
     useEffect(() => {
         const initializeGoogleOneTap = () => {
-            // Script yüklendi mi kontrol et
             if (!window.google) return;
 
             window.google.accounts.id.initialize({
-                client_id: "73949061224-ejvepvb2r4iuruprjlhovcfl6b252g8d.apps.googleusercontent.com", // User's Web Client ID
+                client_id: "73949061224-ejvepvb2r4iuruprjlhovcfl6b252g8d.apps.googleusercontent.com",
                 callback: async (response: any) => {
                     try {
-                        // Google'dan gelen ID Token
                         const credential = GoogleAuthProvider.credential(response.credential);
-
-                        // Firebase ile giriş yap
                         const result = await signInWithCredential(auth, credential);
-
                         if (onSuccess) onSuccess(result.user);
                     } catch (error) {
                         console.error("One Tap Login Failed:", error);
                         if (onError) onError(error);
                     }
                 },
-                auto_select: true, // Otomatik seçimi dener
-                cancel_on_tap_outside: false
+                auto_select: false, 
+                cancel_on_tap_outside: true
             });
 
-            // Popup'ı göster
-            window.google.accounts.id.prompt((notification: any) => {
-                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    console.log("One Tap skipped/not displayed:", notification.getNotDisplayedReason());
-                }
-            });
+            // Resmi Google Butonunu Render Et
+            const buttonDiv = document.getElementById('google-button-container');
+            if (buttonDiv) {
+                window.google.accounts.id.renderButton(
+                    buttonDiv,
+                    { theme: 'filled_black', size: 'large', shape: 'pill', width: '380' }
+                );
+            }
+
+            // One Tap Prompt (Sağ üstteki panel)
+            window.google.accounts.id.prompt();
         };
 
         // Scripti Dinamik Olarak Yükle

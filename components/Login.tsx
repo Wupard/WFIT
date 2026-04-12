@@ -296,14 +296,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
-                  <button
-                    type="button"
-                    onClick={handleGoogleLogin}
-                    className="w-full py-3.5 flex items-center justify-center gap-3 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl hover:border-[var(--accent-primary)] transition-all font-medium text-[var(--text-main)] text-sm"
-                  >
-                    <GoogleIcon />
-                    Google ile Bağlan
-                  </button>
+                  <div id="google-button-container" className="flex justify-center w-full"></div>
                 </div>
 
                 {mode === 'login' && (
