@@ -15,6 +15,10 @@ export default defineConfig(({ mode }) => {
       react(),
       VitePWA({
         registerType: 'autoUpdate',
+        injectRegister: 'script',
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}']
+        },
         devOptions: {
           enabled: true
         },
@@ -29,6 +33,25 @@ export default defineConfig(({ mode }) => {
           display: "standalone",
           start_url: "/",
           orientation: "portrait",
+          dir: "ltr",
+          categories: ["fitness", "health", "lifestyle"],
+          prefer_related_applications: false,
+          display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
+          launch_handler: {
+            client_mode: "navigate-existing"
+          },
+          edge_side_panel: {
+            preferred_width: 400
+          },
+          shortcuts: [
+            {
+              name: "Calculators",
+              short_name: "Calc",
+              description: "Open fitness calculators",
+              url: "/",
+              icons: [{ src: "/icon-192.png", sizes: "192x192" }]
+            }
+          ],
           icons: [
             {
               src: "/icon-192.png",
