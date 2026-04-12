@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         devOptions: {
           enabled: true
         },
-        includeAssets: ['favicon.jpg', 'app-logo.jpg'],
+        includeAssets: ['favicon.jpg', 'SplashScreen.png'],
         manifest: {
           name: "WFIT - Smart Fitness Assistant",
           short_name: "WFIT",
@@ -29,14 +29,16 @@ export default defineConfig(({ mode }) => {
           start_url: "/",
           icons: [
             {
-              src: "/app-logo.jpg",
+              src: "/SplashScreen.png",
               sizes: "192x192",
-              type: "image/jpeg"
+              type: "image/png",
+              purpose: "any"
             },
             {
-              src: "/app-logo.jpg",
+              src: "/SplashScreen.png",
               sizes: "512x512",
-              type: "image/jpeg"
+              type: "image/png",
+              purpose: "any maskable"
             }
           ]
         }
