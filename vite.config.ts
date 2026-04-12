@@ -18,8 +18,9 @@ export default defineConfig(({ mode }) => {
         devOptions: {
           enabled: true
         },
-        includeAssets: ['favicon.jpg', 'SplashScreen.png'],
+        includeAssets: ['favicon.jpg', 'icon-192.png', 'icon-512.png', 'SplashScreen.png'],
         manifest: {
+          id: "/",
           name: "WFIT - Smart Fitness Assistant",
           short_name: "WFIT",
           description: "Your personal aesthetic fitness assistant.",
@@ -27,18 +28,33 @@ export default defineConfig(({ mode }) => {
           background_color: "#14110F",
           display: "standalone",
           start_url: "/",
+          orientation: "portrait",
           icons: [
             {
-              src: "/SplashScreen.png",
+              src: "/icon-192.png",
               sizes: "192x192",
               type: "image/png",
               purpose: "any"
             },
             {
-              src: "/SplashScreen.png",
+              src: "/icon-512.png",
               sizes: "512x512",
               type: "image/png",
               purpose: "any maskable"
+            }
+          ],
+          screenshots: [
+            {
+              src: "/SplashScreen.png",
+              sizes: "1024x1024",
+              type: "image/png",
+              form_factor: "wide"
+            },
+            {
+              src: "/SplashScreen.png",
+              sizes: "1024x1024",
+              type: "image/png",
+              form_factor: "narrow"
             }
           ]
         }
