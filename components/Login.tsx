@@ -296,7 +296,16 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
-                  <div id="google-button-container" className="flex justify-center w-full"></div>
+                  <button
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    className="w-full h-[46px] flex items-center justify-center gap-3 bg-[#131314] border border-[#8e918f] rounded-full hover:bg-[#1E1F20] active:bg-[#2A2B2D] transition-all text-white font-sans font-medium text-sm px-6 shadow-sm overflow-hidden group"
+                  >
+                    <div className="bg-white p-1 rounded-full group-hover:scale-105 transition-transform">
+                      <GoogleIcon />
+                    </div>
+                    <span>Google ile oturum açın</span>
+                  </button>
                 </div>
 
                 {mode === 'login' && (

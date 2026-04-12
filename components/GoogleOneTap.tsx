@@ -35,23 +35,6 @@ export const GoogleOneTap: React.FC<GoogleOneTapProps> = ({ onSuccess, onError }
                 ux_mode: 'popup'
             });
 
-            // Resmi Google Butonunu Render Et
-            const buttonDiv = document.getElementById('google-button-container');
-            if (buttonDiv) {
-                window.google.accounts.id.renderButton(
-                    buttonDiv,
-                    { 
-                        theme: 'filled_black', 
-                        size: 'large', 
-                        shape: 'pill', 
-                        width: '350', // Sabit genişlik yerine daha uygun bir değer
-                        logo_alignment: 'left',
-                        text: 'signin_with',
-                        locale: 'tr'
-                    }
-                );
-            }
-
             // One Tap Prompt (Sağ üstteki panel)
             window.google.accounts.id.prompt();
         };
