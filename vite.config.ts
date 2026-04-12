@@ -17,7 +17,8 @@ export default defineConfig(({ mode }) => {
         registerType: 'autoUpdate',
         injectRegister: 'script',
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}']
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}'],
+          navigateFallbackDenylist: [/^\/zyro/, /^\/windex/]
         },
         devOptions: {
           enabled: true
