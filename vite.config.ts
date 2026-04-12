@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
           id: "/",
           name: "WFIT - Smart Fitness Assistant",
           short_name: "WFIT",
-          description: "Your personal aesthetic fitness assistant.",
+          description: "Your personal fitness assistant.",
           theme_color: "#14110F",
           background_color: "#14110F",
           display: "standalone",

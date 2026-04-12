@@ -18,6 +18,10 @@
         {
             "source": "/windex/:match*",
             "destination": "https://windex-navy.vercel.app/:match*"
+        },
+        {
+            "source": "/__/auth/:match*",
+            "destination": "https://wfit-9de7b.firebaseapp.com/__/auth/:match*"
         }
     ]
 }
