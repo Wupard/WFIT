@@ -43,8 +43,12 @@ export const App = () => {
           photoUrl: currentUser.photoURL || undefined
         });
 
+        // Safety: yeni kullanıcıda Firestore dokümanı olmayabilir, max 4sn bekle
+        const safetyTimer = setTimeout(() => setLoadingData(false), 4000);
+
         // Real-time listener setup
         unsubscribeSnapshot = onSnapshot(doc(db, "users", currentUser.uid), (docSnap) => {
+          clearTimeout(safetyTimer);
           if (docSnap.exists()) {
             const savedData = docSnap.data();
             if (savedData.historyLog) setHistoryLog(savedData.historyLog);
@@ -59,6 +63,7 @@ export const App = () => {
           }
           setLoadingData(false);
         }, (error) => {
+          clearTimeout(safetyTimer);
           console.error("Snapshot error:", error);
           setLoadingData(false);
         });
