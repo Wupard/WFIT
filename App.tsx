@@ -8,19 +8,11 @@ import { Settings } from './components/Settings';
 import { Login } from './components/Login';
 import { About } from './components/About';
 import { AIChatbot } from './components/AIChatbot';
-import { TestPage } from './components/TestPage';
-import { User, ViewState, PRCalcResult, AppSettings, HistoryEvent, StickyNote, AppNotification } from './types';
+import { User, ViewState, PRCalcResult, AppSettings, HistoryEvent, StickyNote } from './types';
 // FIREBASE IMPORTLARI
-import { auth, saveUserData, getUserData, logoutUser } from './services/firebase';
+import { auth, db, saveUserData, logoutUser } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-
-// Initial Mock Data
-const MOCK_USER: User = {
-  id: '1',
-  name: 'Alex Fitness',
-  email: 'alex@wfit.com',
-  photoUrl: 'https://picsum.photos/200'
-};
+import { onSnapshot, doc } from 'firebase/firestore';
 
 export const App = () => {
   // --- STATE ---
@@ -38,92 +30,49 @@ export const App = () => {
   const [syncStatus, setSyncStatus] = useState<'synced' | 'syncing' | 'error'>('synced');
 
 
-  // 1. FIREBASE AUTH LISTENER (GİRİŞ KONTROLÜ)
+  // 1. FIREBASE AUTH LISTENER & REAL-TIME SYNC
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    let unsubscribeSnapshot: (() => void) | undefined;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        // Kullanıcı giriş yapmış, verileri çekelim
-        let initialUser: User = {
+        setUser({
           id: currentUser.uid,
           name: currentUser.displayName || 'User',
           email: currentUser.email || '',
           photoUrl: currentUser.photoURL || undefined
-        };
+        });
 
-        try {
-          const lsUser = localStorage.getItem('userParams');
-          if (lsUser) {
-            const parsedUser = JSON.parse(lsUser);
-            if (parsedUser.id === currentUser.uid) {
-              initialUser = { ...initialUser, ...parsedUser };
-            }
-          }
-        } catch (e) { console.error("LS user load error", e) }
-
-        setUser(initialUser);
-
-        // Yardımcı fonksiyon: LocalStorage'dan verileri yükle
-        const loadFromLocalStorage = () => {
-          console.log("Firebase başarısız veya veri yok, LocalStorage kullanılıyor...");
-          try {
-            const lsHistoryLog = localStorage.getItem('historyLog');
-            if (lsHistoryLog) setHistoryLog(JSON.parse(lsHistoryLog));
-            const lsLastPr = localStorage.getItem('lastPr');
-            if (lsLastPr) setLastPr(JSON.parse(lsLastPr));
-            const lsSettings = localStorage.getItem('settings');
-            if (lsSettings) setSettings(JSON.parse(lsSettings));
-            const lsNotes = localStorage.getItem('notes');
-            if (lsNotes) setNotes(JSON.parse(lsNotes));
-          } catch (e) {
-            console.error('LocalStorage yükleme hatası:', e);
-          }
-        };
-
-        // Firestore'dan verileri al
-        try {
-          const savedData = await getUserData(currentUser.uid);
-          if (savedData) {
-            // Firestore'da veri varsa, state'leri güncelle
+        // Real-time listener setup
+        unsubscribeSnapshot = onSnapshot(doc(db, "users", currentUser.uid), (docSnap) => {
+          if (docSnap.exists()) {
+            const savedData = docSnap.data();
             if (savedData.historyLog) setHistoryLog(savedData.historyLog);
             if (savedData.lastPr) setLastPr(savedData.lastPr);
-            if (savedData.settings) setSettings(savedData.settings);
+            if (savedData.settings) setSettings(prev => ({ ...prev, ...savedData.settings }));
             if (savedData.notes) setNotes(savedData.notes);
-
-            if (savedData.photoUrl) {
-              setUser(u => {
-                if (!u) return u;
-                return {
-                  ...u,
-                  photoUrl: savedData.photoUrl
-                };
-              });
-            }
-          } else {
-            // Firestore'da veri yoksa LocalStorage dene
-            loadFromLocalStorage();
+            
+            // LocalStorage sync
+            Object.entries(savedData).forEach(([key, value]) => {
+              try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+            });
           }
-        } catch (error) {
-          console.error("Veri yükleme hatası:", error);
-          // Hata durumunda LocalStorage DENE
-          loadFromLocalStorage();
-        }
+          setLoadingData(false);
+        }, (error) => {
+          console.error("Snapshot error:", error);
+          setLoadingData(false);
+        });
+
       } else {
-        // Kullanıcı yoksa veya çıkış yaptıysa
         setUser(null);
+        setLoadingData(false);
       }
-      setLoadingData(false);
     });
 
-    // Theme Local Storage Check (Yedek)
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      setSettings(s => ({ ...s, theme: 'dark' }));
-    } else {
-      document.documentElement.classList.remove('dark');
-      setSettings(s => ({ ...s, theme: 'light' }));
-    }
-
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeSnapshot) unsubscribeSnapshot();
+    };
   }, []);
 
 
@@ -142,21 +91,17 @@ export const App = () => {
 
         try {
           await saveUserData(user.id, dataToSave);
-          console.log("Veriler buluta senkronize edildi.");
           setSyncStatus('synced');
         } catch (error) {
           console.error("Sync error:", error);
           setSyncStatus('error');
         }
 
-        // LocalStorage fallback (ve user params)
+        // LocalStorage fallback
         Object.entries(dataToSave).forEach(([key, value]) => {
-          try {
-            localStorage.setItem(key, JSON.stringify(value));
-          } catch (e) {
-            // ignore
-          }
+          try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
         });
+        
         try {
           localStorage.setItem('userParams', JSON.stringify({
             photoUrl: user.photoUrl,
@@ -164,7 +109,7 @@ export const App = () => {
           }));
         } catch (e) { }
 
-      }, 2000); // 2 saniye debounce
+      }, 2000); 
       return () => clearTimeout(timeout);
     }
   }, [historyLog, lastPr, settings, user, loadingData, notes]);
@@ -180,21 +125,12 @@ export const App = () => {
     }
   }, [settings.theme]);
 
-  // Welcome notification on first load (must be before early returns)
-  // Welcome state tracking
-  useEffect(() => {
-    const welcomeShown = localStorage.getItem('welcome_shown');
-    if (user && !loadingData && !welcomeShown) {
-      localStorage.setItem('welcome_shown', 'true');
-    }
-  }, [user, loadingData, settings.language]);
-
   const handleLogin = (loggedInUser: User) => {
     setUser(loggedInUser);
   };
 
   const handleLogout = async () => {
-    await logoutUser(); // Firebase Logout
+    await logoutUser(); 
     setUser(null);
     setView('dashboard');
   };
@@ -212,11 +148,7 @@ export const App = () => {
 
   const handleUpdateProfile = (photoUrl?: string) => {
     if (user) {
-      const updated = {
-        ...user,
-        ...(photoUrl !== undefined && { photoUrl })
-      };
-      setUser(updated);
+      setUser(prev => prev ? { ...prev, ...(photoUrl !== undefined && { photoUrl }) } : null);
     }
   };
 
@@ -244,14 +176,12 @@ export const App = () => {
       createdAt: new Date().toISOString(),
       color
     };
-    setNotes([...notes, newNote]);
+    setNotes(prev => [...prev, newNote]);
   };
 
   const handleDeleteNote = (id: string) => {
-    setNotes(notes.filter(n => n.id !== id));
+    setNotes(prev => prev.filter(n => n.id !== id));
   };
-
-
 
   return (
     <Layout

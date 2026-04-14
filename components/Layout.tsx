@@ -34,17 +34,31 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
 
   const handleDragEnd = () => {
     if (touchStartX.current === null || touchEndX.current === null) return;
+    
+    // Check if the starting touch was on an interactive or scrollable element
+    const target = document.elementFromPoint(touchStartX.current, 0);
+    const isScrollable = target?.closest('.workout-list, .card-tabs, .monthly-tracker, select, input, textarea, button, a');
+    
+    if (isScrollable) {
+      touchStartX.current = null;
+      touchEndX.current = null;
+      return;
+    }
+
     const distance = touchStartX.current - touchEndX.current;
     const minSwipeDistance = 75; // px
 
-    if (distance < -minSwipeDistance) {
-      // Swiped right -> Open menu or uncollapse
+    if (distance < -minSwipeDistance && touchStartX.current < 50) {
+      // Swiped right from edge -> Open menu or uncollapse
       if (window.innerWidth < 768) setIsSidebarOpen(true);
       else setIsSidebarCollapsed(false);
     } else if (distance > minSwipeDistance) {
       // Swiped left -> Close menu or collapse
-      if (window.innerWidth < 768) setIsSidebarOpen(false);
-      else setIsSidebarCollapsed(true);
+      if (window.innerWidth < 768) {
+        if (isSidebarOpen) setIsSidebarOpen(false);
+      } else {
+        setIsSidebarCollapsed(true);
+      }
     }
     
     touchStartX.current = null;
