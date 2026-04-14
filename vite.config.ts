@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         injectRegister: 'script',
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}'],
-          navigateFallbackDenylist: [/^\/zyro/, /^\/windex/]
+          navigateFallbackDenylist: [/^\/zyro/, /^\/windex/, /^\/__/]
         },
         devOptions: {
           enabled: true
