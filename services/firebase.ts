@@ -6,7 +6,7 @@ import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 // BURAYA Firebase konsolundan aldığın kodları yapıştır
 const firebaseConfig = {
   apiKey: "AIzaSyCTFplgiY7IfVTyGE6mOqrmjPhwJ3oFg-o",
-  authDomain: "wupard.xyz",
+  authDomain: "wfit-9de7b.firebaseapp.com",
   projectId: "wfit-9de7b",
   storageBucket: "wfit-9de7b.firebasestorage.app",
   messagingSenderId: "641357902140",
