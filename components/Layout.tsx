@@ -31,17 +31,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   // Swipe & Drag Logic
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+  const touchStartTarget = useRef<Element | null>(null);
 
   const handleDragEnd = () => {
     if (touchStartX.current === null || touchEndX.current === null) return;
     
     // Check if the starting touch was on an interactive or scrollable element
-    const target = document.elementFromPoint(touchStartX.current, 0);
-    const isScrollable = target?.closest('.workout-list, .card-tabs, .monthly-tracker, select, input, textarea, button, a');
+    const isScrollable = touchStartTarget.current?.closest('.workout-list, .card-tabs, .monthly-tracker, select, input, textarea, button, a');
     
     if (isScrollable) {
       touchStartX.current = null;
       touchEndX.current = null;
+      touchStartTarget.current = null;
       return;
     }
 
@@ -63,6 +64,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
     
     touchStartX.current = null;
     touchEndX.current = null;
+    touchStartTarget.current = null;
   };
 
   // Dynamic Background Icon based on view
@@ -91,10 +93,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeView, onNavigate
   return (
     <div 
       className="min-h-screen flex bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 font-body relative"
-      onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; touchEndX.current = null; }}
+      onTouchStart={(e) => { touchStartX.current = e.targetTouches[0].clientX; touchEndX.current = null; touchStartTarget.current = e.target as Element; }}
       onTouchMove={(e) => { touchEndX.current = e.targetTouches[0].clientX; }}
       onTouchEnd={handleDragEnd}
-      onMouseDown={(e) => { touchStartX.current = e.clientX; touchEndX.current = null; }}
+      onMouseDown={(e) => { touchStartX.current = e.clientX; touchEndX.current = null; touchStartTarget.current = e.target as Element; }}
       onMouseMove={(e) => { if (e.buttons === 1) touchEndX.current = e.clientX; }}
       onMouseUp={handleDragEnd}
       onMouseLeave={handleDragEnd}
