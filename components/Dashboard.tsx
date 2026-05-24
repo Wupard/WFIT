@@ -162,18 +162,18 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lastPr, onNavigate, 
                   e.preventDefault();
                   window.location.href = '/zyro/';
                 }}
-                className="cursor-pointer relative z-50 inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-main)]/40 backdrop-blur-md border border-fuchsia-500/30 hover:border-fuchsia-500 hover:bg-fuchsia-500/10 text-[var(--text-main)] font-bold rounded-2xl transition-all duration-300 group/zyro shadow-[0_0_20px_rgba(217,70,239,0.15)] hover:shadow-[0_0_30px_rgba(217,70,239,0.3)]"
+                className="cursor-pointer relative z-50 inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-main)]/40 backdrop-blur-md border border-fuchsia-500/30 hover:border-fuchsia-500 hover:bg-fuchsia-500/10 text-[var(--text-main)] font-bold rounded-2xl transition-all duration-300 group/zyro shadow-[0_0_20px_rgba(217,70,239,0.15)] hover:shadow-[0_0_30px_rgba(217,70,239,0.3)] select-none"
               >
-                <div className="relative p-1.5 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-lg text-white group-hover/zyro:scale-110 group-hover/zyro:rotate-3 transition-all duration-300 shadow-[0_0_15px_rgba(217,70,239,0.5)]">
+                <div className="relative p-1.5 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-lg text-white group-hover/zyro:scale-110 group-hover/zyro:rotate-3 transition-all duration-300 shadow-[0_0_15px_rgba(217,70,239,0.5)] pointer-events-none">
                   <div className="absolute inset-0 bg-white/30 rounded-lg animate-ping" style={{ animationDuration: '2s' }}></div>
                   <Gem size={18} className="relative z-10 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                   <Sparkles size={12} className="absolute -top-2 -right-2 text-yellow-300 animate-pulse z-20 drop-shadow-[0_0_5px_rgba(253,224,71,1)]" />
                   <Sparkles size={8} className="absolute -bottom-1 -left-1 text-white animate-pulse z-20" style={{ animationDelay: '1s' }} />
                 </div>
-                <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent group-hover/zyro:brightness-125 transition-all text-lg tracking-wide uppercase">
+                <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent group-hover/zyro:brightness-125 transition-all text-lg tracking-wide uppercase pointer-events-none">
                   {getTranslation(language, 'zyro_hub')}
                 </span>
-                <ChevronRight size={16} className="text-fuchsia-400 group-hover/zyro:translate-x-1 transition-transform" />
+                <ChevronRight size={16} className="text-fuchsia-400 group-hover/zyro:translate-x-1 transition-transform pointer-events-none" />
               </a>
             </div>
           </div>
